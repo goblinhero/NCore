@@ -1,0 +1,1 @@
+Migrate.exe -conn "Data Source=(local)\sqlexpress;database=NCore.Demo;Integrated Security=SSPI;" -a NCore.Demo.DBMigrate.dll -db sqlserver2008 > LastDBMigrate.log.txt
