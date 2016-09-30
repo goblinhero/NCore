@@ -11,15 +11,16 @@ namespace NCore.Nancy
     public abstract class CRUDModule<T, TDto> : NancyModule
         where T : IEntity
     {
-        private readonly SessionHelper _sessionHelper = new SessionHelper();
+        protected readonly SessionHelper _sessionHelper = new SessionHelper();
+        protected StaticRoutes _staticRoutes;
 
         protected CRUDModule()
         {
-            var staticRoutes = new StaticRoutes(typeof(T).Name);
-            Get[staticRoutes.Get] = p => GetOne(p.id);
-            Post[staticRoutes.Post] = _ => PostOne(this.Bind<TDto>());
-            Put[staticRoutes.Put] = p => PutOne(p.id, this.Bind<TDto>());
-            Delete[staticRoutes.Delete] = p => DeleteOne(p.id);
+            _staticRoutes = new StaticRoutes(typeof(T).Name);
+            Get[_staticRoutes.Get] = p => GetOne(p.id);
+            Post[_staticRoutes.Post] = _ => PostOne(this.Bind<TDto>());
+            Put[_staticRoutes.Put] = p => PutOne(p.id, this.Bind<TDto>());
+            Delete[_staticRoutes.Delete] = p => DeleteOne(p.id);
         }
 
         protected abstract ICreator<T> GetCreator(TDto dto);

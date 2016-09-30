@@ -4,12 +4,13 @@
     {
         public StaticRoutes(string baseRoute)
         {
-            Post = baseRoute;
+            Base = baseRoute;
         }
 
-        public string Get => Post + "/{id}";
-        public string Post { get; }
-        public string Put => Post + "/{id}";
-        public string Delete => Post + "/{id}";
+        public string Get => Base + "/{id}";
+        public string Post => Base;
+        public string Put => Base + "/{id}";
+        public string Delete => Base + "/{id}";
+        public string Base { get; }
     }
 }
