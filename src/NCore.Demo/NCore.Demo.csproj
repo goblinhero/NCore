@@ -56,8 +56,11 @@
     <Compile Include="Contracts\AddressDto.cs" />
     <Compile Include="Contracts\CustomerDto.cs" />
     <Compile Include="Contracts\OrderDto.cs" />
+    <Compile Include="Contracts\OrderLineDto.cs" />
     <Compile Include="Creators\CustomerCreator.cs" />
     <Compile Include="Creators\OrderCreator.cs" />
+    <Compile Include="Creators\OrderLineCreator.cs" />
+    <Compile Include="Helpers\OrderLineIndexHandler.cs" />
     <Compile Include="Deleters\CustomerDeleter.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Customer.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Mappings\Contracts\CustomerDtoMapping.cs" />
     <Compile Include="Modules\CustomerModule.cs" />
+    <Compile Include="Modules\OrderLineModule.cs" />
     <Compile Include="Modules\OrderModule.cs" />
     <Compile Include="Updaters\CustomerUpdater.cs" />
     <Compile Include="Queries\FindCustomerQuery.cs" />
@@ -78,6 +82,7 @@
     <Compile Include="Mappings\OrderMapping.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Updaters\OrderLineUpdater.cs" />
     <Compile Include="Updaters\OrderUpdater.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,11 @@ namespace NCore.Extensions
             return strategies.FirstOrDefault(s => s.IsApplicable(criteria))?.Execute(criteria);
         }
 
+        public static TResult ExecuteFirstOrDefault<TCriteria, TResult>(this IEnumerable<IStrategy<TCriteria, TResult>> strategies, TCriteria criteria)
+        {
+            var strategy = strategies.FirstOrDefault(s => s.IsApplicable(criteria));
+            return strategy == null ? default(TResult) : strategy.Execute(criteria);
+        }
         public static IEnumerable<TResult> Execute<TCriteria, TResult>(this IEnumerable<IStrategy<TCriteria, TResult>> strategies, TCriteria criteria)
         {
             return strategies.Where(s => s.IsApplicable(criteria)).Select(s => s.Execute(criteria)).ToList();
