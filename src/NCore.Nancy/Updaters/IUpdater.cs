@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NHibernate;
 
-namespace NCore.NHibernate
+namespace NCore.Nancy.Updaters
 {
     public interface IUpdater<T>
     {

@@ -1,6 +1,6 @@
 using NCore.Demo.Domain;
 using NCore.Demo.Extensions;
-using NCore.NHibernate.Extensions;
+using NCore.Nancy.Extensions;
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace NCore.Demo.Mappings

@@ -1,6 +1,6 @@
 using System;
 
-namespace NCore
+namespace NCore.Rules
 {
     public class RelayRule<T> : IRule<T>
     {

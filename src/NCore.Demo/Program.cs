@@ -4,7 +4,7 @@ using NCore.Demo.Creators;
 using NCore.Demo.Domain;
 using NCore.Demo.Mappings;
 using NCore.Demo.Queries;
-using NCore.NHibernate;
+using NCore.Nancy;
 
 namespace NCore.Demo
 {

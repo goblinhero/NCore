@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NCore.Demo.Domain;
 using NCore.Extensions;
-using NCore.NHibernate;
+using NCore.Nancy.Queries;
 using NHibernate;
 
 namespace NCore.Demo.Queries

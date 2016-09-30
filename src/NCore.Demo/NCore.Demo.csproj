@@ -66,9 +66,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NCore.NHibernate\NCore.NHibernate.csproj">
-      <Project>{5e02a45b-62f9-4568-97e7-73fb87127bc3}</Project>
-      <Name>NCore.NHibernate</Name>
+    <ProjectReference Include="..\NCore.Nancy\NCore.Nancy.csproj">
+      <Project>{340e46fb-f7e4-45b5-b6f9-049f03cd3c14}</Project>
+      <Name>NCore.Nancy</Name>
     </ProjectReference>
     <ProjectReference Include="..\NCore\NCore.csproj">
       <Project>{9E4A54E6-198B-487C-B911-9DD76E4B793A}</Project>

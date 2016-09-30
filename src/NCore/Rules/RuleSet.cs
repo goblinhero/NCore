@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NCore
+namespace NCore.Rules
 {
     public class RuleSet<T>
         where T : class

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NCore.Rules;
 using NUnit.Framework;
 
 namespace NCore.Tests

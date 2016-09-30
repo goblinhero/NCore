@@ -5,6 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using NCore.Extensions;
+using NCore.Nancy.Commands;
+using NCore.Nancy.Creators;
+using NCore.Nancy.Queries;
+using NCore.Nancy.Updaters;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
@@ -13,7 +17,7 @@ using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
 using Configuration = NHibernate.Cfg.Configuration;
 
-namespace NCore.NHibernate
+namespace NCore.Nancy
 {
     public class SessionHelper
     {

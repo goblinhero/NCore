@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NCore.Extensions;
+using NCore.Rules;
 
 namespace NCore.Demo.Domain
 {

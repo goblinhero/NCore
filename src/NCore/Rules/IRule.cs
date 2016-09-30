@@ -1,4 +1,4 @@
-namespace NCore
+namespace NCore.Rules
 {
     public interface IRule<T>
     {

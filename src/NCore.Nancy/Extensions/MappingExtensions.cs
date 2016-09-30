@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
-namespace NCore.NHibernate.Extensions
+namespace NCore.Nancy.Extensions
 {
     public static class MappingExtensions
     {

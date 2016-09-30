@@ -41,14 +41,18 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="IHasId.cs" />
     <Compile Include="IIsValidatable.cs" />
-    <Compile Include="IRule.cs" />
+    <Compile Include="Rules\IRule.cs" />
     <Compile Include="ITransaction.cs" />
     <Compile Include="IValueType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RelayRule.cs" />
-    <Compile Include="RuleSet.cs" />
+    <Compile Include="Rules\RelayRule.cs" />
+    <Compile Include="Rules\RuleSet.cs" />
+    <Compile Include="Strategies\IStrategy.cs" />
+    <Compile Include="Strategies\RelayStrategy.cs" />
+    <Compile Include="Extensions\StrategyExtensions.cs" />
     <Compile Include="Transaction.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
