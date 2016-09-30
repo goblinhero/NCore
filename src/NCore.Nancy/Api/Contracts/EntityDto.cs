@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NCore.Nancy.Contracts
+namespace NCore.Nancy.Api.Contracts
 {
     public class EntityDto: IHasIdDto
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using NCore.Nancy.Contracts;
+using NCore.Nancy.Api.Contracts;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Type;

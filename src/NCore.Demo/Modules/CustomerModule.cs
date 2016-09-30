@@ -6,6 +6,7 @@ using NCore.Demo.Domain;
 using NCore.Demo.Queries;
 using NCore.Demo.Updaters;
 using NCore.Nancy;
+using NCore.Nancy.Api;
 using NCore.Nancy.Creators;
 using NCore.Nancy.Deleters;
 using NCore.Nancy.Updaters;

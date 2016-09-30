@@ -6,7 +6,7 @@ using NCore.Nancy.Deleters;
 using NCore.Nancy.Queries;
 using NCore.Nancy.Updaters;
 
-namespace NCore.Nancy
+namespace NCore.Nancy.Api
 {
     public abstract class CRUDModule<T, TDto> : NancyModule
         where T : IEntity

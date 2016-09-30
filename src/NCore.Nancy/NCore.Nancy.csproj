@@ -58,10 +58,10 @@
     <Compile Include="Aspects\Strategies\SetEntityCreationDateStrategy.cs" />
     <Compile Include="Aspects\Strategies\SetTransactionCreationDateStrategy.cs" />
     <Compile Include="Aspects\Strategies\ValidStrategy.cs" />
-    <Compile Include="Contracts\EntityDto.cs" />
-    <Compile Include="Contracts\IHasIdDto.cs" />
+    <Compile Include="Api\Contracts\EntityDto.cs" />
+    <Compile Include="Api\Contracts\IHasIdDto.cs" />
     <Compile Include="Creators\BaseCreator.cs" />
-    <Compile Include="CRUDModule.cs" />
+    <Compile Include="Api\CRUDModule.cs" />
     <Compile Include="Deleters\BaseDeleter.cs" />
     <Compile Include="Deleters\IDeleter.cs" />
     <Compile Include="Exceptions\TransactionDeletionAttemptedException.cs" />
