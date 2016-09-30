@@ -7,6 +7,7 @@ using NCore.Demo.Domain;
 using NCore.Demo.Mappings;
 using NCore.Demo.Queries;
 using NCore.Nancy;
+using NCore.Nancy.Aspects;
 
 namespace NCore.Demo
 {
@@ -17,6 +18,7 @@ namespace NCore.Demo
             StaticConfiguration.DisableErrorTraces = false;
             IEnumerable<string> errors;
             SessionHelper.TryInitialize(ConfigurationManager.ConnectionStrings["NCoreConnection"], out errors, null, typeof(CustomerMapping));
+            TriggerConfig.InitializeDefault();
             var config = new HostConfiguration
             {
                 UrlReservations = new UrlReservations { CreateAutomatically = true}

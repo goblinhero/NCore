@@ -53,17 +53,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aspects\Strategies\DisallowTransactionDeletionStrategy.cs" />
+    <Compile Include="Aspects\Strategies\DisallowTransactionUpdateStrategy.cs" />
+    <Compile Include="Aspects\Strategies\SetEntityCreationDateStrategy.cs" />
+    <Compile Include="Aspects\Strategies\SetTransactionCreationDateStrategy.cs" />
+    <Compile Include="Aspects\Strategies\ValidStrategy.cs" />
     <Compile Include="Contracts\EntityDto.cs" />
     <Compile Include="Contracts\IHasIdDto.cs" />
     <Compile Include="Creators\BaseCreator.cs" />
     <Compile Include="CRUDModule.cs" />
     <Compile Include="Deleters\BaseDeleter.cs" />
     <Compile Include="Deleters\IDeleter.cs" />
+    <Compile Include="Exceptions\TransactionDeletionAttemptedException.cs" />
+    <Compile Include="Exceptions\TransactionUpdateAttemptedException.cs" />
+    <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Creators\ICreator.cs" />
     <Compile Include="Queries\GetQuery.cs" />
     <Compile Include="StaticRoutes.cs" />
+    <Compile Include="Aspects\TriggerConfig.cs" />
     <Compile Include="Updaters\BaseUpdater.cs" />
     <Compile Include="Updaters\IUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +88,7 @@
       <Name>NCore</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

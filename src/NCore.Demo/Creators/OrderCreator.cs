@@ -22,7 +22,6 @@ namespace NCore.Demo.Creators
             entity = new Order
             {
                 Address = _dto.Address.ConvertToValueType(),
-                CreationDate = DateTime.UtcNow,
                 Customer = _dto.CustomerId.HasValue ? session.Get<Customer>(_dto.CustomerId.Value) : null
             };
             return entity.IsValid(out errors);

@@ -22,8 +22,7 @@ namespace NCore.Demo.Creators
             entity = new Customer
             {
                 CompanyName = _dto.CompanyName,
-                Address = _dto.Address.ConvertToValueType(),
-                CreationDate = DateTime.UtcNow
+                Address = _dto.Address.ConvertToValueType()
             };
             return entity.IsValid(out errors);
         }

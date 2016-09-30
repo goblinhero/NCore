@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using NCore.Extensions;
+using NCore.Nancy.Aspects;
 using NCore.Nancy.Commands;
 using NCore.Nancy.Creators;
 using NCore.Nancy.Deleters;
@@ -14,6 +15,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
+using NHibernate.Event;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
 using Configuration = NHibernate.Cfg.Configuration;
@@ -24,7 +26,6 @@ namespace NCore.Nancy
     {
         private static ISessionFactory _sessionFactory;
         private static bool _initialized;
-
         public static bool TryInitialize(ConnectionStringSettings connection, out IEnumerable<string> errors, DBSettings settings = null, params Type[] mappingTypes)
         {
             try
@@ -52,6 +53,12 @@ namespace NCore.Nancy
                 };
                 var mapping = modelMapper.CompileMappingForAllExplicitlyAddedEntities();
                 configuration.AddDeserializedMapping(mapping, "mappings");
+                var triggerConfig = new TriggerConfig();
+                configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { triggerConfig };
+                configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { triggerConfig };
+                configuration.EventListeners.PreDeleteEventListeners = new IPreDeleteEventListener[] { triggerConfig };
+                configuration.EventListeners.PostInsertEventListeners = new IPostInsertEventListener[] { triggerConfig };
+                configuration.EventListeners.PostUpdateEventListeners = new IPostUpdateEventListener[] { triggerConfig };
                 _sessionFactory = configuration.BuildSessionFactory();
             }
             catch (Exception ex)

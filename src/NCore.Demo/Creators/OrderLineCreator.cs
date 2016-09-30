@@ -30,7 +30,6 @@ namespace NCore.Demo.Creators
             entity = new OrderLine(order)
             {
                 Description = _dto.Description ?? string.Empty,
-                CreationDate = DateTime.UtcNow
             };
             new OrderLineIndexHandler().AdjustIndexes(entity,_dto.Index,existingLines);
             return this.Success(out errors);

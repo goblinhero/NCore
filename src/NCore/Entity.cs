@@ -5,17 +5,46 @@ using NCore.Rules;
 
 namespace NCore
 {
-    public abstract class Entity<T> : IEntity
-        where T : class, IEntity
+    public abstract class Entity : IEntity
     {
-        public virtual bool IsValid(out IEnumerable<string> errors)
+        private int? _transientHash;
+        public virtual DateTime? CreationDate { get; set; }
+        public virtual long? Id { get; protected set; }
+        public virtual int Version { get; protected set; }
+        protected bool Equals(IEntity other)
+        {
+            return Id.HasValue && Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((IEntity)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            if (_transientHash.HasValue)
+                return _transientHash.Value;
+            if (Id.HasValue)
+                return Id.GetHashCode();
+            _transientHash = Guid.NewGuid().GetHashCode();
+            return _transientHash.Value;
+        }
+
+        public abstract bool IsValid(out IEnumerable<string> errors);
+    }
+    public abstract class Entity<T> : Entity
+        where T : Entity<T>, IEntity
+    {
+
+        public override bool IsValid(out IEnumerable<string> errors)
         {
             return new RuleSet<T>(GetEntityRules()).UpholdsRules(this as T, out errors);
         }
 
-        public virtual DateTime? CreationDate { get; set; }
-        public virtual long? Id { get; protected set; }
-        public virtual int Version { get; protected set; }
 
         private IRule<T>[] GetEntityRules()
         {

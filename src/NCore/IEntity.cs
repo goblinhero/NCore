@@ -4,7 +4,7 @@ namespace NCore
 {
     public interface IEntity : IHasId, IIsValidatable
     {
-        DateTime? CreationDate { get; set; }
+        DateTime? CreationDate { get; }
         int Version { get; }
     }
 }
