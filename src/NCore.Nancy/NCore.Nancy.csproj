@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NCoreModule.cs" />
+    <Compile Include="CRUDModule.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Creators\ICreator.cs" />

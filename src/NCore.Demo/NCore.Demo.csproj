@@ -36,6 +36,10 @@
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
@@ -45,6 +49,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\AddressDto.cs" />
+    <Compile Include="Contracts\CustomerDto.cs" />
+    <Compile Include="Contracts\EntityDto.cs" />
     <Compile Include="Creators\CustomerCreator.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Customer.cs" />
@@ -53,6 +60,7 @@
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\OrderLine.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
+    <Compile Include="Modules\CustomerModule.cs" />
     <Compile Include="Queries\FindCustomerQuery.cs" />
     <Compile Include="Mappings\CustomerMapping.cs" />
     <Compile Include="Mappings\InvoiceMapping.cs" />
