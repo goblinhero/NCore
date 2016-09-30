@@ -8,9 +8,9 @@
 
         public Address(string street, string city, string country)
         {
-            Street = street;
-            City = city;
-            Country = country;
+            Street = street ?? string.Empty;
+            City = city ?? string.Empty;
+            Country = country ?? string.Empty;
         }
 
         public string Street { get; private set; }

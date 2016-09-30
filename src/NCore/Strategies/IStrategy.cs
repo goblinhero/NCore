@@ -5,6 +5,7 @@ namespace NCore.Strategies
         bool IsApplicable(TCriteria criteria);
         TResult Execute(TCriteria criteria);
     }
+
     public interface IStrategy<TCriteria>
     {
         bool IsApplicable(TCriteria criteria);

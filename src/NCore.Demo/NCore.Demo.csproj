@@ -59,8 +59,10 @@
     <Compile Include="Domain\InvoiceLine.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\OrderLine.cs" />
+    <Compile Include="Extensions\ContractExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Modules\CustomerModule.cs" />
+    <Compile Include="Modules\CustomerUpdater.cs" />
     <Compile Include="Queries\FindCustomerQuery.cs" />
     <Compile Include="Mappings\CustomerMapping.cs" />
     <Compile Include="Mappings\InvoiceMapping.cs" />

@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using Nancy;
+using Nancy.ModelBinding;
+using NCore.Nancy.Creators;
 using NCore.Nancy.Queries;
+using NCore.Nancy.Updaters;
 
 namespace NCore.Nancy
 {
     public abstract class CRUDModule<T, TDto> : NancyModule
+        where T : IEntity
     {
         private readonly SessionHelper _sessionHelper = new SessionHelper();
 
@@ -12,6 +16,45 @@ namespace NCore.Nancy
         {
             var staticRoutes = new StaticRoutes(typeof(T).Name);
             Get[staticRoutes.Get] = p => GetOne(p.id);
+            Post[staticRoutes.Post] = p => PostOne(this.Bind<TDto>());
+            Put[staticRoutes.Put] = p => PutOne(p.id, this.Bind<TDto>());
+        }
+
+        protected abstract ICreator<T> GetCreator(TDto dto);
+        protected abstract IUpdater<T> GetUpdater(long id, TDto dto);
+
+        private object PutOne(long id, TDto dto)
+        {
+            IEnumerable<string> errors;
+            var updater = GetUpdater(id,dto);
+            return _sessionHelper.TryUpdate(updater, out errors)
+                ? new
+                {
+                    Success = true,
+                    updater.Id,
+                }
+                : (object)new
+                {
+                    Success = false,
+                    Errors = errors
+                };
+        }
+
+        private object PostOne(TDto dto)
+        {
+            IEnumerable<string> errors;
+            var creator = GetCreator(dto);
+            return _sessionHelper.TryCreate(creator, out errors)
+                ? new
+                {
+                    Success = true,
+                    creator.AssignedId,
+                }
+                : (object)new
+                {
+                    Success = false,
+                    Errors = errors
+                };
         }
 
         private object GetOne(long id)
@@ -24,26 +67,25 @@ namespace NCore.Nancy
                     Success = true,
                     Result = result
                 }
-                : (object) new
+                : (object)new
                 {
                     Success = false,
                     Errors = errors
                 };
         }
-
     }
+
     public class StaticRoutes
     {
-        private readonly string _base;
-
         public StaticRoutes(string baseRoute)
         {
-            _base = baseRoute;
+            Post = baseRoute;
         }
 
-        public string Get => _base + "/{id}";
-        public string Post => _base;
-        public string Put => _base + "/{id}";
-        public string Delete => _base + "/{id}";
+        public string Get => Post + "/{id}";
+        public string Post { get; }
+
+        public string Put => Post + "/{id}";
+        public string Delete => Post + "/{id}";
     }
 }

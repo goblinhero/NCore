@@ -23,6 +23,7 @@ namespace NCore.Strategies
             _execute(criteria);
         }
     }
+
     public class RelayStrategy<TCriteria, TResult> : IStrategy<TCriteria, TResult>
     {
         private readonly Func<TCriteria, TResult> _execute;
