@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace NCore.Demo.Contracts
+namespace NCore.Nancy.Contracts
 {
-    public class EntityDto
+    public class EntityDto: IHasIdDto
     {
         public long? Id { get; set; }
         public DateTime? CreationDate { get; set; }

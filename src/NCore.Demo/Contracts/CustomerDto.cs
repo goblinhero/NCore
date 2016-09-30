@@ -1,4 +1,6 @@
-﻿namespace NCore.Demo.Contracts
+﻿using NCore.Nancy.Contracts;
+
+namespace NCore.Demo.Contracts
 {
     public class CustomerDto : EntityDto
     {

@@ -7,6 +7,7 @@ using System.Reflection;
 using NCore.Extensions;
 using NCore.Nancy.Commands;
 using NCore.Nancy.Creators;
+using NCore.Nancy.Deleters;
 using NCore.Nancy.Queries;
 using NCore.Nancy.Updaters;
 using NHibernate;
@@ -157,6 +158,26 @@ namespace NCore.Nancy
                     return ex.Error(out errors);
                 }
             }
+        }
+
+        public bool TryDelete<T>(IDeleter<T> deleter, out IEnumerable<string> errors)
+        {
+            IEnumerable<string> e;
+            return Wrap(s =>
+            {
+                IEnumerable<string> err;
+                var entity = s.Get<T>(deleter.Id);
+                if (entity == null)
+                {
+                    return new[] { $"{typeof(T).Name} not found (id: {deleter.Id})" };
+                }
+                if (!deleter.TryDelete(entity, s, out err))
+                {
+                    return err.ToArray();
+                }
+                return new string[0];
+            }, out e, out errors) && (e.Any() ? this.Error(out errors, e.ToArray()) : this.Success(out errors));
+
         }
 
         public class DBSettings

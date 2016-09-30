@@ -53,12 +53,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\EntityDto.cs" />
+    <Compile Include="Contracts\IHasIdDto.cs" />
     <Compile Include="Creators\BaseCreator.cs" />
     <Compile Include="CRUDModule.cs" />
+    <Compile Include="Deleters\BaseDeleter.cs" />
+    <Compile Include="Deleters\IDeleter.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Creators\ICreator.cs" />
     <Compile Include="Queries\GetQuery.cs" />
+    <Compile Include="StaticRoutes.cs" />
+    <Compile Include="Updaters\BaseUpdater.cs" />
     <Compile Include="Updaters\IUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\IQuery.cs" />

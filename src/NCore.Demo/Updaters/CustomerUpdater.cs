@@ -5,7 +5,7 @@ using NCore.Demo.Extensions;
 using NCore.Nancy.Updaters;
 using NHibernate;
 
-namespace NCore.Demo.Modules
+namespace NCore.Demo.Updaters
 {
     public class CustomerUpdater : BaseUpdater<Customer>
     {
@@ -21,6 +21,7 @@ namespace NCore.Demo.Modules
         {
             entity.Address = _dto.Address.ConvertToValueType();
             entity.CompanyName = _dto.CompanyName;
+
             return base.TryUpdate(entity, session, out errors);
         }
     }
