@@ -12,19 +12,19 @@ namespace NCore.Nancy.Aspects.Strategies
             return criteria.Entity is IIsValidatable;
         }
 
+        public void Execute(PreInsertEvent criteria)
+        {
+            CheckValidity((IIsValidatable) criteria.Entity);
+        }
+
         public bool IsApplicable(PreUpdateEvent criteria)
         {
             return criteria.Entity is IIsValidatable;
         }
 
-        public void Execute(PreInsertEvent criteria)
-        {
-            CheckValidity((IIsValidatable)criteria.Entity);
-        }
-
         public void Execute(PreUpdateEvent criteria)
         {
-            CheckValidity((IIsValidatable)criteria.Entity);
+            CheckValidity((IIsValidatable) criteria.Entity);
         }
 
         private static void CheckValidity(IIsValidatable entity)

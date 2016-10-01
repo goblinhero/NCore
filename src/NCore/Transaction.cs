@@ -11,6 +11,7 @@ namespace NCore
         public virtual long? Id { get; protected set; }
         public abstract bool IsValid(out IEnumerable<string> errors);
     }
+
     public abstract class Transaction<T> : Transaction
         where T : Transaction<T>, ITransaction
     {

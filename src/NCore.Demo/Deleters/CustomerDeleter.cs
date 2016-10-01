@@ -9,7 +9,7 @@ namespace NCore.Demo.Deleters
     public class CustomerDeleter : BaseDeleter<Customer>
     {
         public CustomerDeleter(long id)
-            :base(id)
+            : base(id)
         {
         }
 

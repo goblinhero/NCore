@@ -34,9 +34,9 @@ namespace NCore.Nancy.Api
                 ? new
                 {
                     Success = true,
-                    deleter.Id,
+                    deleter.Id
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors
@@ -51,14 +51,14 @@ namespace NCore.Nancy.Api
         private object PutOne(long id, TDto dto)
         {
             IEnumerable<string> errors;
-            var updater = GetUpdater(id,dto);
+            var updater = GetUpdater(id, dto);
             return _sessionHelper.TryUpdate(updater, out errors)
                 ? new
                 {
                     Success = true,
-                    updater.Id,
+                    updater.Id
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors
@@ -73,9 +73,9 @@ namespace NCore.Nancy.Api
                 ? new
                 {
                     Success = true,
-                    creator.AssignedId,
+                    creator.AssignedId
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors
@@ -92,7 +92,7 @@ namespace NCore.Nancy.Api
                     Success = true,
                     Result = result
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors

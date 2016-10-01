@@ -19,7 +19,7 @@ namespace NCore.Demo.Helpers
                     ol.Where(l => l.Index >= i).ForEach(l => l.Index++);
                     return i;
                 }, ol => ol.Any() && newIndex.HasValue),
-                new RelayStrategy<IList<OrderLine>, int>(ol => ol.Max(l => l.Index)+1, ol => ol.Any()),
+                new RelayStrategy<IList<OrderLine>, int>(ol => ol.Max(l => l.Index) + 1, ol => ol.Any()),
                 new RelayStrategy<IList<OrderLine>, int>(ol => 0)
             }.ExecuteFirstOrDefault(otherLines);
         }

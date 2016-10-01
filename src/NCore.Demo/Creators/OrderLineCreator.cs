@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
@@ -29,9 +28,9 @@ namespace NCore.Demo.Creators
             var existingLines = session.QueryOver<OrderLine>().Where(ol => ol.Order == order).List();
             entity = new OrderLine(order)
             {
-                Description = _dto.Description ?? string.Empty,
+                Description = _dto.Description ?? string.Empty
             };
-            new OrderLineIndexHandler().AdjustIndexes(entity,_dto.Index,existingLines);
+            new OrderLineIndexHandler().AdjustIndexes(entity, _dto.Index, existingLines);
             return this.Success(out errors);
         }
     }

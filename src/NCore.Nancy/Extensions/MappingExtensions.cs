@@ -3,7 +3,6 @@ using System.Linq.Expressions;
 using NCore.Nancy.Api.Contracts;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
-using NHibernate.Type;
 
 namespace NCore.Nancy.Extensions
 {
@@ -15,6 +14,7 @@ namespace NCore.Nancy.Extensions
         {
             mapping.Id(m => m.Id, m => m.Generator(Generators.HighLow, g => g.Params(new {max_lo = 100})));
         }
+
         public static void MapIdDto<TMapping, T>(this TMapping mapping)
             where TMapping : ClassMapping<T>
             where T : class, IHasIdDto
@@ -32,6 +32,7 @@ namespace NCore.Nancy.Extensions
             mapping.Version(m => m.Version, m => m.Column("[Version]"));
             mapping.Property(m => m.CreationDate);
         }
+
         public static void MapEntityDto<TMapping, T>(this TMapping mapping)
             where TMapping : ClassMapping<T>
             where T : EntityDto
@@ -45,6 +46,7 @@ namespace NCore.Nancy.Extensions
             where TMapping : ClassMapping<T>
             where T : class, ITransaction
         {
+            mapping.Mutable(false);
             mapping.MapId<TMapping, T>();
             mapping.Property(m => m.CreationDate);
         }

@@ -5,7 +5,8 @@ namespace NCore.Demo.DBMigrate.Extensions
 {
     public static class MappingExtensions
     {
-        public static ICreateTableColumnOptionOrWithColumnSyntax WithAddress(this ICreateTableColumnOptionOrWithColumnSyntax syntax)
+        public static ICreateTableColumnOptionOrWithColumnSyntax WithAddress(
+            this ICreateTableColumnOptionOrWithColumnSyntax syntax)
         {
             return syntax
                 .WithStringColumn("Street")

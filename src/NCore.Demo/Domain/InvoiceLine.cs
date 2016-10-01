@@ -1,7 +1,20 @@
 namespace NCore.Demo.Domain
 {
-    public class InvoiceLine : IHasId
+    public class InvoiceLine : IValueType
     {
-        public virtual long? Id { get; protected set; }
+        protected InvoiceLine()
+        {
+        }
+
+        public InvoiceLine(string description, decimal total, int index)
+        {
+            Description = description;
+            Total = total;
+            Index = index;
+        }
+
+        public string Description { get; private set; }
+        public decimal Total { get; private set; }
+        public int Index { get; private set; }
     }
 }

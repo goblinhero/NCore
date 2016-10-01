@@ -36,6 +36,7 @@
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
       <Private>True</Private>
@@ -53,8 +54,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\InvoiceOrderCommand.cs" />
     <Compile Include="Contracts\AddressDto.cs" />
     <Compile Include="Contracts\CustomerDto.cs" />
+    <Compile Include="Contracts\InvoiceDto.cs" />
+    <Compile Include="Contracts\InvoiceLineDto.cs" />
     <Compile Include="Contracts\OrderDto.cs" />
     <Compile Include="Contracts\OrderLineDto.cs" />
     <Compile Include="Creators\CustomerCreator.cs" />
@@ -71,9 +75,16 @@
     <Compile Include="Extensions\ContractExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Mappings\Contracts\CustomerDtoMapping.cs" />
+    <Compile Include="Mappings\Contracts\InvoiceDtoMapping.cs" />
+    <Compile Include="Mappings\Contracts\InvoiceLineDtoMapping.cs" />
+    <Compile Include="Mappings\Contracts\OrderDtoMapping.cs" />
+    <Compile Include="Mappings\Contracts\OrderLineDtoMapping.cs" />
     <Compile Include="Modules\CustomerModule.cs" />
+    <Compile Include="Modules\InvoiceModule.cs" />
     <Compile Include="Modules\OrderLineModule.cs" />
     <Compile Include="Modules\OrderModule.cs" />
+    <Compile Include="Queries\FindInvoiceQuery.cs" />
+    <Compile Include="Queries\FindOrderQuery.cs" />
     <Compile Include="Updaters\CustomerUpdater.cs" />
     <Compile Include="Queries\FindCustomerQuery.cs" />
     <Compile Include="Mappings\CustomerMapping.cs" />

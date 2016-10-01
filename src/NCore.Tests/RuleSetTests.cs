@@ -10,21 +10,6 @@ namespace NCore.Tests
     public class RuleSetTests
     {
         [Test]
-        public void ShouldReturnFalseIfRuleIsBroken()
-        {
-            var message = "Rule is broken";
-            IEnumerable<string> errors;
-            var rule = MockRepository.GenerateStub<IRule<string>>();
-            rule.Expect(r => r.IsBroken(Arg<string>.Is.Anything)).Return(true);
-            rule.Expect(r => r.BrokenMessage).Return(message);
-
-            var ruleset = new RuleSet<string>(rule);
-
-            Assert.That(!ruleset.UpholdsRules(string.Empty,out errors));
-            Assert.That(errors, Is.Not.Empty);
-            Assert.That(errors.First(), Is.EqualTo(message));
-        }
-        [Test]
         public void ShouldReturnFalseIfAnyRuleIsBroken()
         {
             var message = "Rule is broken";
@@ -38,10 +23,27 @@ namespace NCore.Tests
 
             var ruleset = new RuleSet<string>(rule1, rule2);
 
-            Assert.That(!ruleset.UpholdsRules(string.Empty,out errors));
+            Assert.That(!ruleset.UpholdsRules(string.Empty, out errors));
             Assert.That(errors, Is.Not.Empty);
             Assert.That(errors.First(), Is.EqualTo(message));
         }
+
+        [Test]
+        public void ShouldReturnFalseIfRuleIsBroken()
+        {
+            var message = "Rule is broken";
+            IEnumerable<string> errors;
+            var rule = MockRepository.GenerateStub<IRule<string>>();
+            rule.Expect(r => r.IsBroken(Arg<string>.Is.Anything)).Return(true);
+            rule.Expect(r => r.BrokenMessage).Return(message);
+
+            var ruleset = new RuleSet<string>(rule);
+
+            Assert.That(!ruleset.UpholdsRules(string.Empty, out errors));
+            Assert.That(errors, Is.Not.Empty);
+            Assert.That(errors.First(), Is.EqualTo(message));
+        }
+
         [Test]
         public void ShouldReturnTrueIfRuleIsNotBroken()
         {
@@ -51,7 +53,7 @@ namespace NCore.Tests
 
             var ruleset = new RuleSet<string>(rule);
 
-            Assert.That(ruleset.UpholdsRules(string.Empty,out errors));
+            Assert.That(ruleset.UpholdsRules(string.Empty, out errors));
             Assert.That(errors, Is.Empty);
         }
     }

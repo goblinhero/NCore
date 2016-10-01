@@ -4,7 +4,7 @@ using NHibernate;
 namespace NCore.Nancy.Updaters
 {
     public abstract class BaseUpdater<T> : IUpdater<T>
-        where T:IEntity
+        where T : IEntity
     {
         protected BaseUpdater(long id)
         {

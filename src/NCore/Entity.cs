@@ -11,6 +11,9 @@ namespace NCore
         public virtual DateTime? CreationDate { get; set; }
         public virtual long? Id { get; protected set; }
         public virtual int Version { get; protected set; }
+
+        public abstract bool IsValid(out IEnumerable<string> errors);
+
         protected bool Equals(IEntity other)
         {
             return Id.HasValue && Id == other.Id;
@@ -20,8 +23,8 @@ namespace NCore
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((IEntity)obj);
+            if (obj.GetType() != GetType()) return false;
+            return Equals((IEntity) obj);
         }
 
         public override int GetHashCode()
@@ -33,13 +36,11 @@ namespace NCore
             _transientHash = Guid.NewGuid().GetHashCode();
             return _transientHash.Value;
         }
-
-        public abstract bool IsValid(out IEnumerable<string> errors);
     }
+
     public abstract class Entity<T> : Entity
         where T : Entity<T>, IEntity
     {
-
         public override bool IsValid(out IEnumerable<string> errors)
         {
             return new RuleSet<T>(GetEntityRules()).UpholdsRules(this as T, out errors);
