@@ -6,6 +6,7 @@ namespace NCore.Nancy.Updaters
     public interface IUpdater<T>
     {
         long Id { get; }
-        bool TryUpdate(T entity, ISession session, out IEnumerable<string> errors);
+        void SetEntity(T entity);
+        bool TryUpdate(ISession session, out IEnumerable<string> errors);
     }
 }

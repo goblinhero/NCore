@@ -10,12 +10,12 @@ namespace NCore.Demo.Modules
 {
     public class OrderModule : CRUDModule<Order, OrderDto>
     {
-        protected override ICreator<Order> GetCreator(OrderDto dto)
+        protected override ICreator<Order> GetCreator(object dto)
         {
             return new OrderCreator(dto);
         }
 
-        protected override IUpdater<Order> GetUpdater(long id, OrderDto dto)
+        protected override IUpdater<Order> GetUpdater(long id, object dto)
         {
             return new OrderUpdater(id, dto);
         }

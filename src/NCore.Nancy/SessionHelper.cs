@@ -112,7 +112,7 @@ namespace NCore.Nancy
                 {
                     return new[] {$"{typeof(T).Name} not found (id: {updater.Id})"};
                 }
-                if (!updater.TryUpdate(entity, s, out err) || !entity.IsValid(out err))
+                if (!updater.TryUpdate(s, out err) || !entity.IsValid(out err))
                 {
                     return err.ToArray();
                 }

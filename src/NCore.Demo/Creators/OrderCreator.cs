@@ -10,21 +10,18 @@ namespace NCore.Demo.Creators
 {
     public class OrderCreator : BaseCreator<Order>
     {
-        private readonly OrderDto _dto;
+        private readonly object _dto;
 
-        public OrderCreator(OrderDto dto)
+        public OrderCreator(object dto)
         {
             _dto = dto;
         }
 
         public override bool TryCreate(ISession session, out Order entity, out IEnumerable<string> errors)
         {
-            entity = new Order
-            {
-                Address = _dto.Address.ConvertToValueType(),
-                CreationDate = DateTime.UtcNow,
-                Customer = _dto.CustomerId.HasValue ? session.Get<Customer>(_dto.CustomerId.Value) : null
-            };
+            entity = new Order();
+            //Update Customer
+            //Update Address
             return entity.IsValid(out errors);
         }
     }

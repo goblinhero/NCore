@@ -18,13 +18,13 @@ namespace NCore.Nancy
         {
             _staticRoutes = new StaticRoutes(typeof(T).Name);
             Get[_staticRoutes.Get] = p => GetOne(p.id);
-            Post[_staticRoutes.Post] = _ => PostOne(this.Bind<TDto>());
-            Put[_staticRoutes.Put] = p => PutOne(p.id, this.Bind<TDto>());
+            Post[_staticRoutes.Post] = _ => PostOne(this.Bind());
+            Put[_staticRoutes.Put] = p => PutOne(p.id, this.Bind());
             Delete[_staticRoutes.Delete] = p => DeleteOne(p.id);
         }
 
-        protected abstract ICreator<T> GetCreator(TDto dto);
-        protected abstract IUpdater<T> GetUpdater(long id, TDto dto);
+        protected abstract ICreator<T> GetCreator(object dto);
+        protected abstract IUpdater<T> GetUpdater(long id, object dto);
 
         private object DeleteOne(long id)
         {
@@ -48,7 +48,7 @@ namespace NCore.Nancy
             return new BaseDeleter<T>(id);
         }
 
-        private object PutOne(long id, TDto dto)
+        private object PutOne(long id, object dto)
         {
             IEnumerable<string> errors;
             var updater = GetUpdater(id,dto);
@@ -65,7 +65,7 @@ namespace NCore.Nancy
                 };
         }
 
-        private object PostOne(TDto dto)
+        private object PostOne(object dto)
         {
             IEnumerable<string> errors;
             var creator = GetCreator(dto);

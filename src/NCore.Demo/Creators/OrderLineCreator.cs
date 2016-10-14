@@ -11,28 +11,35 @@ namespace NCore.Demo.Creators
 {
     public class OrderLineCreator : BaseCreator<OrderLine>
     {
-        private readonly OrderLineDto _dto;
+        private readonly object _dto;
 
-        public OrderLineCreator(OrderLineDto dto)
+        public OrderLineCreator(object dto)
         {
             _dto = dto;
         }
 
         public override bool TryCreate(ISession session, out OrderLine entity, out IEnumerable<string> errors)
         {
-            var order = session.Get<Order>(_dto.OrderId);
+            long orderId;
+            Order order = null;
+            if (!TryGetValueType("OrderId", _dto, out orderId))
+            {
+                entity = null;
+                return order.NotFound(orderId, out errors);
+            }
+            order = session.Get<Order>(orderId);
             if (order == null)
             {
                 entity = null;
-                return order.NotFound(_dto.OrderId, out errors);
+                return order.NotFound(orderId, out errors);
             }
             var existingLines = session.QueryOver<OrderLine>().Where(ol => ol.Order == order).List();
-            entity = new OrderLine(order)
-            {
-                Description = _dto.Description ?? string.Empty,
-                CreationDate = DateTime.UtcNow
-            };
-            new OrderLineIndexHandler().AdjustIndexes(entity,_dto.Index,existingLines);
+            _entity = new OrderLine(order);
+            UpdateSimpleProperty(ol => ol.Description,_dto);
+            int? index;
+            TryGetValueType("Index", _dto, out index);
+            new OrderLineIndexHandler().AdjustIndexes(_entity, index, existingLines);
+            entity = _entity;
             return this.Success(out errors);
         }
     }

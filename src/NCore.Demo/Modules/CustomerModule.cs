@@ -36,12 +36,12 @@ namespace NCore.Demo.Modules
                 };
         }
 
-        protected override ICreator<Customer> GetCreator(CustomerDto dto)
+        protected override ICreator<Customer> GetCreator(object  dto)
         {
             return new CustomerCreator(dto);
         }
 
-        protected override IUpdater<Customer> GetUpdater(long id, CustomerDto dto)
+        protected override IUpdater<Customer> GetUpdater(long id, object dto)
         {
             return new CustomerUpdater(id, dto);
         }

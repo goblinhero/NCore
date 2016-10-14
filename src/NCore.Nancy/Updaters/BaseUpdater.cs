@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using NCore.Extensions;
 using NHibernate;
 
 namespace NCore.Nancy.Updaters
 {
-    public abstract class BaseUpdater<T> : IUpdater<T>
-        where T:IEntity
+    public abstract class BaseUpdater<TEntity> : EntitySetter<TEntity>, IUpdater<TEntity>
+        where TEntity : IEntity
     {
         protected BaseUpdater(long id)
         {
@@ -13,9 +14,18 @@ namespace NCore.Nancy.Updaters
 
         public long Id { get; }
 
-        public virtual bool TryUpdate(T entity, ISession session, out IEnumerable<string> errors)
+        public void SetEntity(TEntity entity)
         {
-            return entity.IsValid(out errors);
+            _entity = entity;
         }
+
+        public bool TryUpdate(ISession session, out IEnumerable<string> errors)
+        {
+            if (!TrySetProperties(session, out errors))
+                return false;
+            return _entity.IsValid(out errors);
+        }
+
+        protected abstract bool TrySetProperties(ISession session, out IEnumerable<string> errors);
     }
 }

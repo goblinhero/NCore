@@ -10,21 +10,18 @@ namespace NCore.Demo.Creators
 {
     public class CustomerCreator : BaseCreator<Customer>
     {
-        private readonly CustomerDto _dto;
+        private readonly object _dto;
 
-        public CustomerCreator(CustomerDto dto)
+        public CustomerCreator(object dto)
         {
             _dto = dto;
         }
 
         public override bool TryCreate(ISession session, out Customer entity, out IEnumerable<string> errors)
         {
-            entity = new Customer
-            {
-                CompanyName = _dto.CompanyName,
-                Address = _dto.Address.ConvertToValueType(),
-                CreationDate = DateTime.UtcNow
-            };
+            entity = new Customer();
+            UpdateSimpleProperty(e => e.CompanyName,_dto);
+            //TODO: Get Address
             return entity.IsValid(out errors);
         }
     }

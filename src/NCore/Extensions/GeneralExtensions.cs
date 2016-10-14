@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace NCore.Extensions
 {
@@ -16,7 +18,7 @@ namespace NCore.Extensions
             return Error(ex, out errors, ex.Message, ex.StackTrace);
         }
 
-        public static bool NotFound<T>(this T entity, long id, out IEnumerable<string> errors)
+        public static bool NotFound<T>(this T entity, object id, out IEnumerable<string> errors)
         {
             return Error(entity,out errors,$"{typeof(T).Name} not found (id:{id}).");
         }
@@ -32,6 +34,22 @@ namespace NCore.Extensions
             {
                 action(item);
             }
+        }
+        public static MemberInfo GetMemberInfo(this Expression expression)
+        {
+            MemberExpression operand;
+            var lambdaExpression = (LambdaExpression)expression;
+            var unaryExpression = lambdaExpression.Body as UnaryExpression;
+            if (unaryExpression != null)
+            {
+                var body = unaryExpression;
+                operand = (MemberExpression)body.Operand;
+            }
+            else
+            {
+                operand = (MemberExpression)lambdaExpression.Body;
+            }
+            return operand.Member;
         }
     }
 }

@@ -9,19 +9,19 @@ namespace NCore.Demo.Updaters
 {
     public class OrderUpdater : BaseUpdater<Order>
     {
-        private readonly OrderDto _dto;
+        private readonly object _dto;
 
-        public OrderUpdater(long id, OrderDto dto)
+        public OrderUpdater(long id, object dto)
             : base(id)
         {
             _dto = dto;
         }
 
-        public override bool TryUpdate(Order entity, ISession session, out IEnumerable<string> errors)
+        protected override bool TrySetProperties(ISession session, out IEnumerable<string> errors)
         {
-            entity.Address = _dto.Address.ConvertToValueType();
-            entity.Customer = _dto.CustomerId.HasValue ? session.Get<Customer>(_dto.CustomerId.Value) : null;
-            return base.TryUpdate(entity, session, out errors);
+            //Update Customer
+            //Update Address
+            return base.TryUpdate(session, out errors);
         }
     }
 }

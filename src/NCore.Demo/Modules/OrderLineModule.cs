@@ -8,14 +8,14 @@ using NCore.Nancy.Updaters;
 
 namespace NCore.Demo.Modules
 {
-    public class OrderLineModule : CRUDModule<OrderLine, OrderLineDto>
+    public class OrderLineModule : CRUDModule<OrderLine, object>
     {
-        protected override ICreator<OrderLine> GetCreator(OrderLineDto dto)
+        protected override ICreator<OrderLine> GetCreator(object dto)
         {
             return new OrderLineCreator(dto);
         }
 
-        protected override IUpdater<OrderLine> GetUpdater(long id, OrderLineDto dto)
+        protected override IUpdater<OrderLine> GetUpdater(long id, object dto)
         {
             return new OrderLineUpdater(id, dto);
         }

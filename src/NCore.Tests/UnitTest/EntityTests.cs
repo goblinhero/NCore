@@ -4,7 +4,7 @@ using System.Linq;
 using NCore.Rules;
 using NUnit.Framework;
 
-namespace NCore.Tests
+namespace NCore.Tests.UnitTest
 {
     [TestFixture]
     public class EntityTests

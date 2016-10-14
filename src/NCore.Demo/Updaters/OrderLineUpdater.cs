@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Helpers;
+using NCore.Extensions;
 using NCore.Nancy.Updaters;
 using NHibernate;
 
@@ -9,27 +10,27 @@ namespace NCore.Demo.Updaters
 {
     public class OrderLineUpdater : BaseUpdater<OrderLine>
     {
-        private readonly OrderLineDto _dto;
+        private readonly object _dto;
 
-        public OrderLineUpdater(long id, OrderLineDto dto)
+        public OrderLineUpdater(long id, object dto)
             : base(id)
         {
             _dto = dto;
         }
 
-        public override bool TryUpdate(OrderLine entity, ISession session, out IEnumerable<string> errors)
+        protected override bool TrySetProperties(ISession session, out IEnumerable<string> errors)
         {
-            if (!Equals(entity.Index, _dto.Index))
+            UpdateValueTypeProperty(e => e.Index,_dto,(o, n) =>
             {
                 var otherLines = session.QueryOver<OrderLine>()
-                    .Where(ol => ol.Order == entity.Order)
-                    .And(ol => ol.Id != entity.Id)
+                    .Where(ol => ol.Order == _entity.Order)
+                    .And(ol => ol.Id != _entity.Id)
                     .List();
-                new OrderLineIndexHandler().AdjustIndexes(entity, _dto.Index, otherLines);
-            }
-            entity.Total = _dto.Total;
-            entity.Description = _dto.Description ?? string.Empty;
-            return base.TryUpdate(entity, session, out errors);
+                new OrderLineIndexHandler().AdjustIndexes(_entity, n, otherLines);
+            });
+            UpdateValueTypeProperty(e => e.Total,_dto);
+            UpdateSimpleProperty(e => e.Description,_dto);
+            return this.Success(out errors);
         }
     }
 }
