@@ -1,4 +1,4 @@
-﻿using NCore.Nancy.Contracts;
+﻿using NCore.Nancy.Api.Contracts;
 
 namespace NCore.Demo.Contracts
 {

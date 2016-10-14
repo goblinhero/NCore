@@ -6,7 +6,7 @@ using NCore.Nancy.Deleters;
 using NCore.Nancy.Queries;
 using NCore.Nancy.Updaters;
 
-namespace NCore.Nancy
+namespace NCore.Nancy.Api
 {
     public abstract class CRUDModule<T, TDto> : NancyModule
         where T : IEntity
@@ -34,9 +34,9 @@ namespace NCore.Nancy
                 ? new
                 {
                     Success = true,
-                    deleter.Id,
+                    deleter.Id
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors
@@ -51,14 +51,14 @@ namespace NCore.Nancy
         private object PutOne(long id, object dto)
         {
             IEnumerable<string> errors;
-            var updater = GetUpdater(id,dto);
+            var updater = GetUpdater(id, dto);
             return _sessionHelper.TryUpdate(updater, out errors)
                 ? new
                 {
                     Success = true,
-                    updater.Id,
+                    updater.Id
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors
@@ -73,9 +73,9 @@ namespace NCore.Nancy
                 ? new
                 {
                     Success = true,
-                    creator.AssignedId,
+                    creator.AssignedId
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors
@@ -92,7 +92,7 @@ namespace NCore.Nancy
                     Success = true,
                     Result = result
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors

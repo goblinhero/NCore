@@ -2,7 +2,7 @@ using NCore.Demo.Contracts;
 using NCore.Demo.Creators;
 using NCore.Demo.Domain;
 using NCore.Demo.Updaters;
-using NCore.Nancy;
+using NCore.Nancy.Api;
 using NCore.Nancy.Creators;
 using NCore.Nancy.Updaters;
 

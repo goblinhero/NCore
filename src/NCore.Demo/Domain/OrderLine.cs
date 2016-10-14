@@ -2,7 +2,9 @@ namespace NCore.Demo.Domain
 {
     public class OrderLine : Entity<OrderLine>
     {
-        protected OrderLine(){}
+        protected OrderLine()
+        {
+        }
 
         public OrderLine(Order order)
         {

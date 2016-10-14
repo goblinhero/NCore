@@ -43,6 +43,8 @@
     <Compile Include="Migrate_002_Customer.cs" />
     <Compile Include="Migrate_003_Order.cs" />
     <Compile Include="Migrate_004_OrderLine.cs" />
+    <Compile Include="Migrate_005_OrderDto.cs" />
+    <Compile Include="Migrate_006_Invoice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

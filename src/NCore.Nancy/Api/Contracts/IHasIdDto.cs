@@ -1,4 +1,4 @@
-﻿namespace NCore.Nancy.Contracts
+﻿namespace NCore.Nancy.Api.Contracts
 {
     public interface IHasIdDto
     {

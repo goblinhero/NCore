@@ -4,6 +4,6 @@ namespace NCore
 {
     public interface ITransaction : IHasId, IIsValidatable
     {
-        DateTime? CreationDate { get; set; }
+        DateTime? CreationDate { get; }
     }
 }

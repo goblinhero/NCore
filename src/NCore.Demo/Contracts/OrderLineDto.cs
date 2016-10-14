@@ -1,13 +1,12 @@
-﻿using NCore.Nancy.Contracts;
+﻿using NCore.Nancy.Api.Contracts;
 
 namespace NCore.Demo.Contracts
 {
     public class OrderLineDto : EntityDto
     {
-        public virtual long OrderId { get; set; }
-        public virtual string Description { get; set; }
-        public virtual decimal Total { get; set; }
-        public virtual int? Index { get; set; }
-
+        public long OrderId { get; set; }
+        public string Description { get; set; }
+        public decimal Total { get; set; }
+        public int? Index { get; set; }
     }
 }

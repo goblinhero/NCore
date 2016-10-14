@@ -5,18 +5,21 @@ namespace NCore.DBMigrate.Extensions
 {
     public static class MappingExtensions
     {
-        public static ICreateTableColumnOptionOrWithColumnSyntax WithStringColumn(this ICreateTableColumnOptionOrWithColumnSyntax syntax, string name, bool nullable = false, int length = 255)
+        public static ICreateTableColumnOptionOrWithColumnSyntax WithStringColumn(
+            this ICreateTableColumnOptionOrWithColumnSyntax syntax, string name, bool nullable = false, int length = 255)
         {
             return syntax
                 .WithColumn($"[{name}]").AsString(length).Null(nullable);
         }
 
-        public static ICreateTableColumnOptionOrWithColumnSyntax Null(this ICreateTableColumnOptionOrWithColumnSyntax syntax, bool nullable)
+        public static ICreateTableColumnOptionOrWithColumnSyntax Null(
+            this ICreateTableColumnOptionOrWithColumnSyntax syntax, bool nullable)
         {
             return nullable ? syntax.Nullable() : syntax.NotNullable();
         }
 
-        public static ICreateTableColumnOptionOrWithColumnSyntax WithInt64Column(this ICreateTableColumnOptionOrWithColumnSyntax syntax, string name, bool nullable = false)
+        public static ICreateTableColumnOptionOrWithColumnSyntax WithInt64Column(
+            this ICreateTableColumnOptionOrWithColumnSyntax syntax, string name, bool nullable = false)
         {
             return syntax
                 .WithColumn($"[{name}]").AsInt64().Null(nullable);

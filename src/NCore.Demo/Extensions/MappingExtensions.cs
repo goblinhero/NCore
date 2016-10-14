@@ -19,6 +19,7 @@ namespace NCore.Demo.Extensions
                 c.Property(a => a.Country);
             });
         }
+
         public static void MapAddressDto<TMapping, T>(this TMapping mapping, Expression<Func<T, AddressDto>> prop)
             where TMapping : ClassMapping<T>
             where T : class

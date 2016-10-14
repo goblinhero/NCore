@@ -5,16 +5,21 @@ using NCore.Rules;
 
 namespace NCore
 {
-    public abstract class Transaction<T> : ITransaction
-        where T : class, ITransaction
+    public abstract class Transaction : ITransaction
     {
-        public virtual bool IsValid(out IEnumerable<string> errors)
+        public virtual DateTime? CreationDate { get; set; }
+        public virtual long? Id { get; protected set; }
+        public abstract bool IsValid(out IEnumerable<string> errors);
+    }
+
+    public abstract class Transaction<T> : Transaction
+        where T : Transaction<T>, ITransaction
+    {
+        public override bool IsValid(out IEnumerable<string> errors)
         {
             return new RuleSet<T>(GetTransactionRules()).UpholdsRules(this as T, out errors);
         }
 
-        public virtual DateTime? CreationDate { get; set; }
-        public virtual long? Id { get; protected set; }
 
         private IRule<T>[] GetTransactionRules()
         {

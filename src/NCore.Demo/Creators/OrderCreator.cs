@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
@@ -20,8 +19,8 @@ namespace NCore.Demo.Creators
         public override bool TryCreate(ISession session, out Order entity, out IEnumerable<string> errors)
         {
             entity = new Order();
-            //Update Customer
-            //Update Address
+            //TODO: Get Address
+            //TODO: Get Customer
             return entity.IsValid(out errors);
         }
     }

@@ -54,6 +54,7 @@
     <Compile Include="UnitTest\UpdaterTest.cs" />
     <Compile Include="UnitTest\EntityTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleSetTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,7 +5,7 @@ using NCore.Demo.Deleters;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
 using NCore.Demo.Updaters;
-using NCore.Nancy;
+using NCore.Nancy.Api;
 using NCore.Nancy.Creators;
 using NCore.Nancy.Deleters;
 using NCore.Nancy.Updaters;
@@ -22,14 +22,14 @@ namespace NCore.Demo.Modules
         private object GetList()
         {
             IEnumerable<string> errors;
-            IList<Customer> result;
-            return _sessionHelper.TryQuery(new FindCustomerQuery(), out result,out errors)
+            IList<CustomerDto> result;
+            return _sessionHelper.TryQuery(new FindCustomerQuery(), out result, out errors)
                 ? new
                 {
                     Success = true,
                     Result = result
                 }
-                : (object)new
+                : (object) new
                 {
                     Success = false,
                     Errors = errors

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using NCore.Extensions;
+using NCore.Nancy.Aspects;
 using NCore.Nancy.Commands;
 using NCore.Nancy.Creators;
 using NCore.Nancy.Deleters;
@@ -14,6 +15,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
+using NHibernate.Event;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
 using Configuration = NHibernate.Cfg.Configuration;
@@ -25,7 +27,8 @@ namespace NCore.Nancy
         private static ISessionFactory _sessionFactory;
         private static bool _initialized;
 
-        public static bool TryInitialize(ConnectionStringSettings connection, out IEnumerable<string> errors, DBSettings settings = null, params Type[] mappingTypes)
+        public static bool TryInitialize(ConnectionStringSettings connection, out IEnumerable<string> errors,
+            DBSettings settings = null, params Type[] mappingTypes)
         {
             try
             {
@@ -42,16 +45,24 @@ namespace NCore.Nancy
                 });
                 var modelMapper = new ModelMapper();
                 mappingTypes.ForEach(t => modelMapper.AddMappings(Assembly.GetAssembly(t).GetExportedTypes()));
-                modelMapper.BeforeMapManyToOne += (modelInspector, propertyPath, map) => map.Column(propertyPath.LocalMember.Name + "Id");
+                modelMapper.BeforeMapManyToOne +=
+                    (modelInspector, propertyPath, map) => map.Column(propertyPath.LocalMember.Name + "Id");
                 modelMapper.BeforeMapProperty += (inspector, member, customizer) =>
                 {
-                    if (member.GetRootMember().MemberType == MemberTypes.Property && ((PropertyInfo) member.GetRootMember()).PropertyType == typeof(DateTime))
+                    if (member.GetRootMember().MemberType == MemberTypes.Property &&
+                        ((PropertyInfo) member.GetRootMember()).PropertyType == typeof(DateTime))
                     {
                         customizer.Type<UtcDateTimeType>();
                     }
                 };
                 var mapping = modelMapper.CompileMappingForAllExplicitlyAddedEntities();
                 configuration.AddDeserializedMapping(mapping, "mappings");
+                var triggerConfig = new TriggerConfig();
+                configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] {triggerConfig};
+                configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] {triggerConfig};
+                configuration.EventListeners.PreDeleteEventListeners = new IPreDeleteEventListener[] {triggerConfig};
+                configuration.EventListeners.PostInsertEventListeners = new IPostInsertEventListener[] {triggerConfig};
+                configuration.EventListeners.PostUpdateEventListeners = new IPostUpdateEventListener[] {triggerConfig};
                 _sessionFactory = configuration.BuildSessionFactory();
             }
             catch (Exception ex)
@@ -82,7 +93,8 @@ namespace NCore.Nancy
         {
             if (!_initialized)
             {
-                return this.Error(out errors, "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
+                return this.Error(out errors,
+                    "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
             }
             using (var session = _sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
@@ -141,7 +153,8 @@ namespace NCore.Nancy
             if (!_initialized)
             {
                 result = default(T);
-                return this.Error(out errors, "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
+                return this.Error(out errors,
+                    "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
             }
             using (var session = _sessionFactory.OpenSession())
             using (var tx = session.BeginTransaction())
@@ -169,7 +182,7 @@ namespace NCore.Nancy
                 var entity = s.Get<T>(deleter.Id);
                 if (entity == null)
                 {
-                    return new[] { $"{typeof(T).Name} not found (id: {deleter.Id})" };
+                    return new[] {$"{typeof(T).Name} not found (id: {deleter.Id})"};
                 }
                 if (!deleter.TryDelete(entity, s, out err))
                 {
@@ -177,7 +190,6 @@ namespace NCore.Nancy
                 }
                 return new string[0];
             }, out e, out errors) && (e.Any() ? this.Error(out errors, e.ToArray()) : this.Success(out errors));
-
         }
 
         public class DBSettings

@@ -20,8 +20,9 @@ namespace NCore.Extensions
 
         public static bool NotFound<T>(this T entity, object id, out IEnumerable<string> errors)
         {
-            return Error(entity,out errors,$"{typeof(T).Name} not found (id:{id}).");
+            return Error(entity, out errors, $"{typeof(T).Name} not found (id:{id}).");
         }
+
         public static bool Error(this object obj, out IEnumerable<string> errors, params string[] error)
         {
             errors = error;

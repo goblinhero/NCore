@@ -9,9 +9,10 @@ namespace NCore.Demo.Mappings.Contracts
     {
         public CustomerDtoMapping()
         {
+            Table("Customer");
             this.MapEntityDto<CustomerDtoMapping, CustomerDto>();
             this.MapAddressDto<CustomerDtoMapping, CustomerDto>(c => c.Address);
-            Property(m => m.CompanyName, m => m.NotNullable(true));
+            Property(m => m.CompanyName);
         }
     }
 }

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using NCore.Demo.Domain;
+using NCore.Demo.Contracts;
 using NCore.Extensions;
 using NCore.Nancy.Queries;
 using NHibernate;
 
 namespace NCore.Demo.Queries
 {
-    public class FindCustomerQuery : IQuery<IList<Customer>>
+    public class FindCustomerQuery : IQuery<IList<CustomerDto>>
     {
-        public bool TryExecute(ISession session, out IList<Customer> result, out IEnumerable<string> errors)
+        public bool TryExecute(ISession session, out IList<CustomerDto> result, out IEnumerable<string> errors)
         {
-            result = session.QueryOver<Customer>().List();
+            result = session.QueryOver<CustomerDto>().List();
             return this.Success(out errors);
         }
     }
