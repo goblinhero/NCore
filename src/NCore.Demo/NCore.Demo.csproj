@@ -64,7 +64,7 @@
     <Compile Include="Creators\CustomerCreator.cs" />
     <Compile Include="Creators\OrderCreator.cs" />
     <Compile Include="Creators\OrderLineCreator.cs" />
-    <Compile Include="Helpers\OrderLineIndexHandler.cs" />
+    <Compile Include="Utilities\OrderLineIndexHandler.cs" />
     <Compile Include="Deleters\CustomerDeleter.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Customer.cs" />

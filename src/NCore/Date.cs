@@ -14,7 +14,7 @@ namespace NCore
             DateDays = daysSince1970;
         }
 
-        public int DateDays { get; }
+        public int DateDays { get; private set; }
         public DateTime ToDateTime => DateDays.ToDate();
 
         public static Date Today => new Date(DateTime.Today.DaysSince1970_01_01());

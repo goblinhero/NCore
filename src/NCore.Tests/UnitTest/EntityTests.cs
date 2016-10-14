@@ -19,7 +19,7 @@ namespace NCore.Tests.UnitTest
                 CreationDate = creationDate;
             }
 
-            protected override IEnumerable<IRule<FakeEntity>> GetBusinessRules()
+            protected override IRule<FakeEntity>[] GetBusinessRules()
             {
                 return _extraRules;
             }

@@ -2,25 +2,28 @@ using System.Collections.Generic;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Extensions;
+using NCore.Demo.Utilities;
 using NCore.Nancy.Updaters;
+using NCore.Nancy.Utilities;
 using NHibernate;
 
 namespace NCore.Demo.Updaters
 {
     public class OrderUpdater : BaseUpdater<Order>
     {
-        private readonly object _dto;
+        private IPropertyHelper _propertyHelper;
 
-        public OrderUpdater(long id, object dto)
+        public OrderUpdater(long id, IDictionary<string, object> dto)
             : base(id)
         {
-            _dto = dto;
+            _propertyHelper = new DictionaryHelper(dto);
         }
 
         protected override bool TrySetProperties(ISession session, out IEnumerable<string> errors)
         {
-            //Update Customer
-            //Update Address
+            var setter = new DemoEntitySetter<Order>(_propertyHelper, _entity);
+            setter.PatchAddress(o => o.Address);
+            setter.UpdateComplexProperty(o => o.Customer,session);
             return base.TryUpdate(session, out errors);
         }
     }

@@ -74,11 +74,13 @@
     <Compile Include="StaticRoutes.cs" />
     <Compile Include="Aspects\TriggerConfig.cs" />
     <Compile Include="Updaters\BaseUpdater.cs" />
-    <Compile Include="Updaters\EntitySetter.cs" />
+    <Compile Include="Utilities\DynamicModelBinder.cs" />
+    <Compile Include="Utilities\EntitySetter.cs" />
     <Compile Include="Updaters\IUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\IQuery.cs" />
     <Compile Include="SessionHelper.cs" />
+    <Compile Include="Utilities\PropertyHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

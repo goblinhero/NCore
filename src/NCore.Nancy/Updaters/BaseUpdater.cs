@@ -4,9 +4,11 @@ using NHibernate;
 
 namespace NCore.Nancy.Updaters
 {
-    public abstract class BaseUpdater<TEntity> : EntitySetter<TEntity>, IUpdater<TEntity>
+    public abstract class BaseUpdater<TEntity> : IUpdater<TEntity>
         where TEntity : IEntity
     {
+        protected TEntity _entity;
+
         protected BaseUpdater(long id)
         {
             Id = id;

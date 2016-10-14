@@ -4,7 +4,7 @@ using NCore.Rules;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace NCore.Tests
+namespace NCore.Tests.UnitTest
 {
     [TestFixture]
     public class RuleSetTests

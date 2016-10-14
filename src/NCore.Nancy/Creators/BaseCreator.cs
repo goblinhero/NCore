@@ -4,7 +4,7 @@ using NHibernate;
 
 namespace NCore.Nancy.Creators
 {
-    public abstract class BaseCreator<T> : EntitySetter<T>, ICreator<T> 
+    public abstract class BaseCreator<T> : ICreator<T> 
         where T : IEntity
     {
         public long? AssignedId { get; set; }

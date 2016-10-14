@@ -43,19 +43,10 @@ namespace NCore
     {
         public override bool IsValid(out IEnumerable<string> errors)
         {
-            return new RuleSet<T>(GetEntityRules()).UpholdsRules(this as T, out errors);
+            return new RuleSet<T>(GetBusinessRules()).UpholdsRules(this as T, out errors);
         }
 
-
-        private IRule<T>[] GetEntityRules()
-        {
-            return new IRule<T>[]
-            {
-                new RelayRule<T>(ut => !ut.CreationDate.HasValue, "Creation date is not set")
-            }.Concat(GetBusinessRules()).ToArray();
-        }
-
-        protected virtual IEnumerable<IRule<T>> GetBusinessRules()
+        protected virtual IRule<T>[] GetBusinessRules()
         {
             return new IRule<T>[0];
         }

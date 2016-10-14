@@ -7,6 +7,7 @@ namespace NCore.Demo.Mappings.Contracts
     {
         public InvoiceLineDtoMapping()
         {
+            Lazy(false);
             Table("InvoiceLine");
             ComposedId(cid =>
             {
