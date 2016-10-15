@@ -26,18 +26,6 @@ namespace NCore.Tests.UnitTest
         }
 
         [Test]
-        public void ShouldBeInvalidWithoutCreationDate()
-        {
-            IEntity entity = new FakeEntity();
-            IEnumerable<string> errors;
-
-            var isValid = entity.IsValid(out errors);
-
-            Assert.IsFalse(isValid);
-            Assert.IsNotEmpty(errors);
-        }
-
-        [Test]
         public void ShouldBeValidWithCreationDate()
         {
             IEntity entity = new FakeEntity(DateTime.Now);

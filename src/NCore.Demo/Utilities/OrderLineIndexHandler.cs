@@ -41,7 +41,7 @@ namespace NCore.Demo.Utilities
                     string value;
                     if (!propertyHelper.TryGetValue(pi.Name, out value))
                         return oldAddress == null ? null : pi.GetValue(oldAddress) as string;
-                    isBlankAddress = true;
+                    isBlankAddress = false;
                     return value;
                 });
             if (isBlankAddress)

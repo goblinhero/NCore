@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -14,8 +15,7 @@ namespace NCore.Nancy.Utilities
         }
         private bool TryGetRawValue<T>(string propertyName, out object value)
         {
-            return _properties.TryGetValue(propertyName.ToLowerInvariant(), out value) &&
-                   value is T;
+            return _properties.TryGetValue(propertyName.ToLowerInvariant(), out value);
         }
 
         public bool TryGetValue<T>(string propertyName, out T value)
@@ -26,8 +26,16 @@ namespace NCore.Nancy.Utilities
                 value = default(T);
                 return false;
             }
-            value = (T)rawValue;
-            return true;
+            try
+            {
+                value = (T)rawValue;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                value = default(T);
+                return false;
+            }
         }
     }
     public class PropertyHelper:IPropertyHelper
@@ -45,8 +53,7 @@ namespace NCore.Nancy.Utilities
 
         private bool TryGetProperty<T>(string propertyName, out PropertyInfo property)
         {
-            return _dtoProperties.TryGetValue(propertyName.ToLowerInvariant(), out property) && 
-                   property.PropertyType == typeof(T);
+            return _dtoProperties.TryGetValue(propertyName.ToLowerInvariant(), out property);
         }
 
         public bool TryGetValue<T>(string propertyName, out T value)
@@ -57,8 +64,16 @@ namespace NCore.Nancy.Utilities
                 value = default(T);
                 return false;
             }
-            value = (T)property.GetValue(_dto);
-            return true;
+            try
+            {
+                value = (T) property.GetValue(_dto);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                value = default(T);
+                return false;
+            }
         }
     }
 

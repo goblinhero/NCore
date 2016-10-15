@@ -3,6 +3,7 @@ using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Extensions;
 using NCore.Demo.Utilities;
+using NCore.Extensions;
 using NCore.Nancy.Updaters;
 using NCore.Nancy.Utilities;
 using NHibernate;
@@ -24,7 +25,7 @@ namespace NCore.Demo.Updaters
             var setter = new DemoEntitySetter<Order>(_propertyHelper, _entity);
             setter.PatchAddress(o => o.Address);
             setter.UpdateComplexProperty(o => o.Customer,session);
-            return base.TryUpdate(session, out errors);
+            return this.Success(out errors);
         }
     }
 }

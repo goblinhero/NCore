@@ -6,6 +6,10 @@ namespace NCore.Demo.Domain
 {
     public class Order : Entity<Order>
     {
+        public Order()
+        {
+            Address = new Address(string.Empty,string.Empty,string.Empty);
+        }
         public virtual Customer Customer { get; set; }
         public virtual Address Address { get; set; }
 
