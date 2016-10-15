@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NCore.Extensions;
-using NCore.Nancy.Updaters;
+using NCore.Nancy.Commands;
 using NHibernate;
 using NHibernate.Tuple.Entity;
 using NUnit.Framework;
@@ -16,22 +16,24 @@ namespace NCore.Tests.UnitTest
     public class UpdaterTest
     {
         private IEnumerable<string> _errors;
-
+        private long _id = 5;
         [Test]
         public void ShouldCheckValidity()
         {
             var entity = MockRepository.GenerateMock<FakeEntity>();
-            var updater = new FakeUpdater();
-            updater.SetEntity(entity);
+            var updater = new FakeUpdater(_id);
+            var session = MockRepository.GenerateMock<ISession>();
+            session.Expect(s => s.Get<FakeEntity>(_id)).Return(entity);
 
-            updater.TryUpdate(MockRepository.GenerateStub<ISession>(), out _errors);
+            updater.TryExecute(session, out _errors);
             
             entity.AssertWasCalled(fe => fe.IsValid(out _errors));
+            session.VerifyAllExpectations();
         }
         public class FakeUpdater : BaseUpdater<FakeEntity>
         {
-            public FakeUpdater() 
-                : base(4)
+            public FakeUpdater(long id) 
+                : base(id)
             {
             }
 

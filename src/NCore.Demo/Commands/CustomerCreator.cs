@@ -1,14 +1,11 @@
 using System.Collections.Generic;
-using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
-using NCore.Demo.Extensions;
 using NCore.Demo.Utilities;
-using NCore.Nancy.Creators;
-using NCore.Nancy.Updaters;
+using NCore.Nancy.Commands;
 using NCore.Nancy.Utilities;
 using NHibernate;
 
-namespace NCore.Demo.Creators
+namespace NCore.Demo.Commands
 {
     public class CustomerCreator : BaseCreator<Customer>
     {
@@ -19,7 +16,7 @@ namespace NCore.Demo.Creators
             _propertyHelper = new DictionaryHelper(dto);
         }
 
-        public override bool TryCreate(ISession session, out Customer entity, out IEnumerable<string> errors)
+        protected override bool TryCreate(ISession session, out Customer entity, out IEnumerable<string> errors)
         {
             entity = new Customer();
             var setter = new DemoEntitySetter<Customer>(_propertyHelper,entity);

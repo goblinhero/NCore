@@ -7,10 +7,7 @@ using System.Reflection;
 using NCore.Extensions;
 using NCore.Nancy.Aspects;
 using NCore.Nancy.Commands;
-using NCore.Nancy.Creators;
-using NCore.Nancy.Deleters;
 using NCore.Nancy.Queries;
-using NCore.Nancy.Updaters;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
@@ -81,12 +78,25 @@ namespace NCore.Nancy
 
         public bool TryQuery<T>(IQuery<T> query, out T result, out IEnumerable<string> errors)
         {
-            return Wrap(s =>
+            using (var session = _sessionFactory.OpenStatelessSession())
+            using (var tx = session.BeginTransaction())
             {
-                T r;
-                IEnumerable<string> err;
-                return query.TryExecute(s, out r, out err) ? r : default(T);
-            }, out result, out errors);
+                try
+                {
+                    if (!query.TryExecute(session, out result, out errors))
+                    {
+                        tx.Commit();
+                        return false;
+                    }
+                    tx.Commit();
+                    return this.Success(out errors);
+                }
+                catch (Exception ex)
+                {
+                    result = default(T);
+                    return ex.Error(out errors);
+                }
+            }
         }
 
         public bool TryExecute(ICommand command, out IEnumerable<string> errors)
@@ -110,88 +120,6 @@ namespace NCore.Nancy
                     return ex.Error(out errors);
                 }
             }
-        }
-
-        public bool TryUpdate<T>(IUpdater<T> updater, out IEnumerable<string> errors)
-            where T : IIsValidatable, IHasId
-        {
-            IEnumerable<string> e;
-            return Wrap(s =>
-            {
-                IEnumerable<string> err;
-                var entity = s.Get<T>(updater.Id);
-                if (entity == null)
-                {
-                    return new[] {$"{typeof(T).Name} not found (id: {updater.Id})"};
-                }
-                updater.SetEntity(entity);
-                if (!updater.TryUpdate(s, out err) || 
-                    !entity.IsValid(out err))
-                {
-                    return err.ToArray();
-                }
-                return new string[0];
-            }, out e, out errors) && (e.Any() ? this.Error(out errors, e.ToArray()) : this.Success(out errors));
-        }
-
-        public bool TryCreate<T>(ICreator<T> creator, out IEnumerable<string> errors)
-            where T : IIsValidatable, IHasId
-        {
-            IEnumerable<string> e;
-            return Wrap(s =>
-            {
-                IEnumerable<string> err;
-                T entity;
-                if (!creator.TryCreate(s, out entity, out err) || !entity.IsValid(out err))
-                    return err;
-                s.Save(entity);
-                creator.AssignedId = entity.Id;
-                return new string[0];
-            }, out e, out errors) && (e.Any() ? this.Error(out errors, e.ToArray()) : this.Success(out errors));
-        }
-
-        private bool Wrap<T>(Func<ISession, T> action, out T result, out IEnumerable<string> errors)
-        {
-            if (!_initialized)
-            {
-                result = default(T);
-                return this.Error(out errors,
-                    "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
-            }
-            using (var session = _sessionFactory.OpenSession())
-            using (var tx = session.BeginTransaction())
-            {
-                try
-                {
-                    result = action(session);
-                    tx.Commit();
-                    return this.Success(out errors);
-                }
-                catch (Exception ex)
-                {
-                    result = default(T);
-                    return ex.Error(out errors);
-                }
-            }
-        }
-
-        public bool TryDelete<T>(IDeleter<T> deleter, out IEnumerable<string> errors)
-        {
-            IEnumerable<string> e;
-            return Wrap(s =>
-            {
-                IEnumerable<string> err;
-                var entity = s.Get<T>(deleter.Id);
-                if (entity == null)
-                {
-                    return new[] {$"{typeof(T).Name} not found (id: {deleter.Id})"};
-                }
-                if (!deleter.TryDelete(entity, s, out err))
-                {
-                    return err.ToArray();
-                }
-                return new string[0];
-            }, out e, out errors) && (e.Any() ? this.Error(out errors, e.ToArray()) : this.Success(out errors));
         }
 
         public class DBSettings

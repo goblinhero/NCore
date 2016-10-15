@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
+using NCore.Demo.Commands;
 using NCore.Demo.Contracts;
-using NCore.Demo.Creators;
-using NCore.Demo.Deleters;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
-using NCore.Demo.Updaters;
 using NCore.Nancy.Api;
-using NCore.Nancy.Creators;
-using NCore.Nancy.Deleters;
-using NCore.Nancy.Updaters;
+using NCore.Nancy.Commands;
 
 namespace NCore.Demo.Modules
 {
@@ -36,17 +32,17 @@ namespace NCore.Demo.Modules
                 };
         }
 
-        protected override ICreator<Customer> GetCreator(IDictionary<string, object> dto)
+        protected override ICreator GetCreator(IDictionary<string, object> dto)
         {
             return new CustomerCreator(dto);
         }
 
-        protected override IUpdater<Customer> GetUpdater(long id, IDictionary<string, object> dto)
+        protected override ICommand GetUpdater(long id, IDictionary<string, object> dto)
         {
             return new CustomerUpdater(id, dto);
         }
 
-        protected override IDeleter<Customer> GetDeleter(long id)
+        protected override ICommand GetDeleter(long id)
         {
             return new CustomerDeleter(id);
         }

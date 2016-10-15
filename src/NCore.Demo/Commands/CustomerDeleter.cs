@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using NCore.Demo.Domain;
 using NCore.Extensions;
-using NCore.Nancy.Deleters;
+using NCore.Nancy.Commands;
 using NHibernate;
 
-namespace NCore.Demo.Deleters
+namespace NCore.Demo.Commands
 {
     public class CustomerDeleter : BaseDeleter<Customer>
     {
@@ -12,7 +12,6 @@ namespace NCore.Demo.Deleters
             : base(id)
         {
         }
-
         public override bool TryDelete(Customer entity, ISession session, out IEnumerable<string> errors)
         {
             if (session.QueryOver<Order>().Where(o => o.Customer == entity).RowCount() > 0)

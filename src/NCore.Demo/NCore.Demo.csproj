@@ -61,11 +61,11 @@
     <Compile Include="Contracts\InvoiceLineDto.cs" />
     <Compile Include="Contracts\OrderDto.cs" />
     <Compile Include="Contracts\OrderLineDto.cs" />
-    <Compile Include="Creators\CustomerCreator.cs" />
-    <Compile Include="Creators\OrderCreator.cs" />
-    <Compile Include="Creators\OrderLineCreator.cs" />
+    <Compile Include="Commands\CustomerCreator.cs" />
+    <Compile Include="Commands\OrderCreator.cs" />
+    <Compile Include="Commands\OrderLineCreator.cs" />
     <Compile Include="Utilities\OrderLineIndexHandler.cs" />
-    <Compile Include="Deleters\CustomerDeleter.cs" />
+    <Compile Include="Commands\CustomerDeleter.cs" />
     <Compile Include="Domain\Address.cs" />
     <Compile Include="Domain\Customer.cs" />
     <Compile Include="Domain\Invoice.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="Modules\OrderModule.cs" />
     <Compile Include="Queries\FindInvoiceQuery.cs" />
     <Compile Include="Queries\FindOrderQuery.cs" />
-    <Compile Include="Updaters\CustomerUpdater.cs" />
+    <Compile Include="Commands\CustomerUpdater.cs" />
     <Compile Include="Queries\FindCustomerQuery.cs" />
     <Compile Include="Mappings\CustomerMapping.cs" />
     <Compile Include="Mappings\InvoiceMapping.cs" />
@@ -93,8 +93,8 @@
     <Compile Include="Mappings\OrderMapping.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Updaters\OrderLineUpdater.cs" />
-    <Compile Include="Updaters\OrderUpdater.cs" />
+    <Compile Include="Commands\OrderLineUpdater.cs" />
+    <Compile Include="Commands\OrderUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

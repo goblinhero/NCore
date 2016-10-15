@@ -18,7 +18,7 @@ Having written basically the same code thrice - maybe it is time to just make th
 With this framework you can build REST-full APIs for your line-of-business CRUD applications. Validation, audit trails and easy access to full-fledged search is all baked in.
 
 ## The frameworks
-To avoid too many dependencies, light, performant frameworks are chosen over heavy swiss-army style tools. 
+To avoid too many dependencies, light, performant frameworks are chosen over heavy swiss-army knife style tools. 
 
 * NHibernate, because it does not interfere (too) much with the domain model.
 * Nancy, because it better supports light-weight and flexible REST interfaces.

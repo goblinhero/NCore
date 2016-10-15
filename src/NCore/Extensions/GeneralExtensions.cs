@@ -36,19 +36,20 @@ namespace NCore.Extensions
                 action(item);
             }
         }
+
         public static MemberInfo GetMemberInfo(this Expression expression)
         {
             MemberExpression operand;
-            var lambdaExpression = (LambdaExpression)expression;
+            var lambdaExpression = (LambdaExpression) expression;
             var unaryExpression = lambdaExpression.Body as UnaryExpression;
             if (unaryExpression != null)
             {
                 var body = unaryExpression;
-                operand = (MemberExpression)body.Operand;
+                operand = (MemberExpression) body.Operand;
             }
             else
             {
-                operand = (MemberExpression)lambdaExpression.Body;
+                operand = (MemberExpression) lambdaExpression.Body;
             }
             return operand.Member;
         }

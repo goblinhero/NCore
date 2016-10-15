@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Utilities;
 using NCore.Extensions;
-using NCore.Nancy.Updaters;
+using NCore.Nancy.Commands;
 using NCore.Nancy.Utilities;
 using NHibernate;
 
-namespace NCore.Demo.Updaters
+namespace NCore.Demo.Commands
 {
     public class OrderLineUpdater : BaseUpdater<OrderLine>
     {

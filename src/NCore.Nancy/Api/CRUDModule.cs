@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using Nancy;
 using Nancy.ModelBinding;
-using NCore.Nancy.Creators;
-using NCore.Nancy.Deleters;
+using NCore.Nancy.Commands;
 using NCore.Nancy.Queries;
-using NCore.Nancy.Updaters;
 using NCore.Nancy.Utilities;
 
 namespace NCore.Nancy.Api
@@ -24,18 +22,18 @@ namespace NCore.Nancy.Api
             Delete[_staticRoutes.Delete] = p => DeleteOne(p.id);
         }
 
-        protected abstract ICreator<T> GetCreator(IDictionary<string, object> dto);
-        protected abstract IUpdater<T> GetUpdater(long id, IDictionary<string, object> dto);
+        protected abstract ICreator GetCreator(IDictionary<string, object> dto);
+        protected abstract ICommand GetUpdater(long id, IDictionary<string, object> dto);
 
         private object DeleteOne(long id)
         {
             IEnumerable<string> errors;
             var deleter = GetDeleter(id);
-            return _sessionHelper.TryDelete(deleter, out errors)
+            return _sessionHelper.TryExecute(deleter, out errors)
                 ? new
                 {
                     Success = true,
-                    deleter.Id
+                    Id = id
                 }
                 : (object) new
                 {
@@ -44,7 +42,7 @@ namespace NCore.Nancy.Api
                 };
         }
 
-        protected virtual IDeleter<T> GetDeleter(long id)
+        protected virtual ICommand GetDeleter(long id)
         {
             return new BaseDeleter<T>(id);
         }
@@ -53,11 +51,11 @@ namespace NCore.Nancy.Api
         {
             IEnumerable<string> errors;
             var updater = GetUpdater(id, dto);
-            return _sessionHelper.TryUpdate(updater, out errors)
+            return _sessionHelper.TryExecute(updater, out errors)
                 ? new
                 {
                     Success = true,
-                    updater.Id
+                    Id = id
                 }
                 : (object) new
                 {
@@ -70,7 +68,7 @@ namespace NCore.Nancy.Api
         {
             IEnumerable<string> errors;
             var creator = GetCreator(dto);
-            return _sessionHelper.TryCreate(creator, out errors)
+            return _sessionHelper.TryExecute(creator, out errors)
                 ? new
                 {
                     Success = true,

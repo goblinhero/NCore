@@ -1,5 +1,4 @@
 ﻿using System;
-using NCore.Nancy.Updaters;
 using NCore.Nancy.Utilities;
 using NHibernate;
 using NHibernate.Event;

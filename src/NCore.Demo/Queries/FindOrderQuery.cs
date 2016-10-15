@@ -15,7 +15,7 @@ namespace NCore.Demo.Queries
             _customerId = customerId;
         }
 
-        public bool TryExecute(ISession session, out IList<OrderDto> result, out IEnumerable<string> errors)
+        public bool TryExecute(IStatelessSession session, out IList<OrderDto> result, out IEnumerable<string> errors)
         {
             var query = session.QueryOver<OrderDto>();
             if (_customerId.HasValue)

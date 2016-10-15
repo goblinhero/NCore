@@ -1,13 +1,10 @@
 using System.Collections.Generic;
 using NCore.Demo.Commands;
 using NCore.Demo.Contracts;
-using NCore.Demo.Creators;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
-using NCore.Demo.Updaters;
 using NCore.Nancy.Api;
-using NCore.Nancy.Creators;
-using NCore.Nancy.Updaters;
+using NCore.Nancy.Commands;
 
 namespace NCore.Demo.Modules
 {
@@ -53,12 +50,12 @@ namespace NCore.Demo.Modules
                 };
         }
 
-        protected override ICreator<Order> GetCreator(IDictionary<string, object> dto)
+        protected override ICreator GetCreator(IDictionary<string, object> dto)
         {
             return new OrderCreator(dto);
         }
 
-        protected override IUpdater<Order> GetUpdater(long id, IDictionary<string, object> dto)
+        protected override ICommand GetUpdater(long id, IDictionary<string, object> dto)
         {
             return new OrderUpdater(id, dto);
         }

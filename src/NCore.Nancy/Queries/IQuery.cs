@@ -5,6 +5,6 @@ namespace NCore.Nancy.Queries
 {
     public interface IQuery<T>
     {
-        bool TryExecute(ISession session, out T result, out IEnumerable<string> errors);
+        bool TryExecute(IStatelessSession session, out T result, out IEnumerable<string> errors);
     }
 }

@@ -1,14 +1,12 @@
 using System.Collections.Generic;
-using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Utilities;
 using NCore.Extensions;
-using NCore.Nancy.Creators;
-using NCore.Nancy.Updaters;
+using NCore.Nancy.Commands;
 using NCore.Nancy.Utilities;
 using NHibernate;
 
-namespace NCore.Demo.Creators
+namespace NCore.Demo.Commands
 {
     public class OrderLineCreator : BaseCreator<OrderLine>
     {
@@ -19,7 +17,7 @@ namespace NCore.Demo.Creators
             _propertyHelper = new DictionaryHelper(dto);
         }
 
-        public override bool TryCreate(ISession session, out OrderLine entity, out IEnumerable<string> errors)
+        protected override bool TryCreate(ISession session, out OrderLine entity, out IEnumerable<string> errors)
         {
             long orderId;
             Order order = null;
