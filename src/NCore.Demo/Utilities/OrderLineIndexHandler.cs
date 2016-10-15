@@ -15,16 +15,17 @@ namespace NCore.Demo.Utilities
         public DemoEntitySetter(IPropertyHelper propertyHelper, TEntity entity) : base(propertyHelper, entity)
         {
         }
+
         public void PatchAddress(Expression<Func<TEntity, Address>> property)
         {
-            IDictionary<string,object> dto;
+            IDictionary<string, object> dto;
             var addressProperty = property.GetMemberInfo().Name;
             if (!_propertyHelper.TryGetValue(addressProperty, out dto))
             {
                 return;
             }
             var oldAddress = property.Compile().Invoke(_entity);
-            var newAddress = dto != null ? ExtractPatchedAddress(dto, oldAddress) : Address.Blank; 
+            var newAddress = dto != null ? ExtractPatchedAddress(dto, oldAddress) : Address.Blank;
             if (Equals(oldAddress, newAddress))
                 return;
             var propertyInfo = typeof(TEntity).GetProperty(addressProperty);
@@ -34,7 +35,7 @@ namespace NCore.Demo.Utilities
         private Address ExtractPatchedAddress(IDictionary<string, object> dto, Address oldAddress)
         {
             var propertyHelper = new DictionaryHelper(dto);
-            bool isBlankAddress = true;
+            var isBlankAddress = true;
             var properties = typeof(Address).GetProperties()
                 .ToDictionary(pi => pi.Name, pi =>
                 {
@@ -54,6 +55,7 @@ namespace NCore.Demo.Utilities
             return new Address(street, city, country);
         }
     }
+
     public class OrderLineIndexHandler
     {
         public void AdjustIndexes(OrderLine changingLine, int? newIndex, IList<OrderLine> otherLines)

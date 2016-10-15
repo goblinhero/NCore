@@ -19,7 +19,7 @@ namespace NCore.Demo.Commands
         protected override bool TryCreate(ISession session, out Customer entity, out IEnumerable<string> errors)
         {
             entity = new Customer();
-            var setter = new DemoEntitySetter<Customer>(_propertyHelper,entity);
+            var setter = new DemoEntitySetter<Customer>(_propertyHelper, entity);
             setter.UpdateSimpleProperty(e => e.CompanyName);
             setter.PatchAddress(e => e.Address);
             return entity.IsValid(out errors);

@@ -12,6 +12,7 @@ namespace NCore.Demo.Commands
             : base(id)
         {
         }
+
         public override bool TryDelete(Customer entity, ISession session, out IEnumerable<string> errors)
         {
             if (session.QueryOver<Order>().Where(o => o.Customer == entity).RowCount() > 0)

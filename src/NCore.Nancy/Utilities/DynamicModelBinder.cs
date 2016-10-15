@@ -9,12 +9,13 @@ namespace NCore.Nancy.Utilities
 {
     public class DynamicModelBinder : IModelBinder
     {
-        public object Bind(NancyContext context, Type modelType, object instance, BindingConfig configuration, params string[] blackList)
+        public object Bind(NancyContext context, Type modelType, object instance, BindingConfig configuration,
+            params string[] blackList)
         {
             using (var reader = new StreamReader(context.Request.Body))
             {
                 var input = reader.ReadToEnd();
-                return new JavaScriptSerializer().Deserialize<dynamic>(input);
+                return new JavaScriptSerializer().Deserialize<IDictionary<string, object>>(input);
             }
         }
 

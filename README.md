@@ -5,8 +5,9 @@ Opinionated library for creating CRUD LOB API's
 Trying to cram all the ideas and lessons learned into one lean framework for creating applications without spending too much time on the plumbing that is so essential.
 
 The framework is loosely based on concepts like:
-* Evans' Domain-Driven Design
-* Aspect-oriented programming
+* Evans' Domain-Driven Design (DDD)
+* Aspect-oriented programming (AOP)
+* Command/Query Responsibility Separation (CQRS)
 * The SOLID principles
 * Palermos Onion Structure
 and perhaps the most important principle - use the right tool for the job and stand on the shoulders of giants.

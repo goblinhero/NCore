@@ -34,7 +34,7 @@ namespace NCore.Demo.Commands
             }
             var existingLines = session.QueryOver<OrderLine>().Where(ol => ol.Order == order).List();
             entity = new OrderLine(order);
-            var setter = new EntitySetter<OrderLine>(_propertyHelper,entity);
+            var setter = new EntitySetter<OrderLine>(_propertyHelper, entity);
             setter.UpdateSimpleProperty(ol => ol.Description);
 
             int? index;

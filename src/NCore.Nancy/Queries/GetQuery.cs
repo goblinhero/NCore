@@ -16,9 +16,9 @@ namespace NCore.Nancy.Queries
         public bool TryExecute(IStatelessSession session, out T result, out IEnumerable<string> errors)
         {
             result = session.Get<T>(_id);
-            if (result == null)
-                return result.NotFound(_id, out errors);
-            return this.Success(out errors);
+            return result == null 
+                ? result.NotFound(_id, out errors) 
+                : this.Success(out errors);
         }
     }
 }

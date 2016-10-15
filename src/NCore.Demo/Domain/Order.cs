@@ -10,6 +10,7 @@ namespace NCore.Demo.Domain
         {
             Address = Address.Blank;
         }
+
         public virtual Customer Customer { get; set; }
         public virtual Address Address { get; set; }
 

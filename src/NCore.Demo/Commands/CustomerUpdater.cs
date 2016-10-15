@@ -18,9 +18,9 @@ namespace NCore.Demo.Commands
             _propertyHelper = new DictionaryHelper(dto);
         }
 
-        protected override bool TrySetProperties(ISession session, out IEnumerable<string> errors)
+        protected override bool TrySetProperties(ISession session, Customer entity, out IEnumerable<string> errors)
         {
-            var setter = new DemoEntitySetter<Customer>(_propertyHelper,_entity);
+            var setter = new DemoEntitySetter<Customer>(_propertyHelper, entity);
             setter.UpdateSimpleProperty(e => e.CompanyName);
             setter.PatchAddress(e => e.Address);
             return this.Success(out errors);

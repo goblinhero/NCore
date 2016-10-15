@@ -9,15 +9,11 @@ namespace NCore.Nancy.Utilities
 {
     public class DictionaryHelper : IPropertyHelper
     {
-        private Dictionary<string, object> _properties;
+        private readonly Dictionary<string, object> _properties;
 
-        public DictionaryHelper(IDictionary<string,object> properties)
+        public DictionaryHelper(IDictionary<string, object> properties)
         {
             _properties = properties.ToDictionary(e => e.Key.ToLowerInvariant(), e => e.Value);
-        }
-        private bool TryGetRawValue(string propertyName, out object value)
-        {
-            return _properties.TryGetValue(propertyName.ToLowerInvariant(), out value);
         }
 
         public bool TryGetValue<T>(string propertyName, out T value)
@@ -38,7 +34,7 @@ namespace NCore.Nancy.Utilities
                 new RelayStrategy<object, object>(v => Convert.ToInt32(v), v => typeof(T) == typeof(int?)),
                 new RelayStrategy<object, object>(v => Convert.ToInt64(v), v => typeof(T) == typeof(long)),
                 new RelayStrategy<object, object>(v => Convert.ToInt64(v), v => typeof(T) == typeof(long?)),
-                new RelayStrategy<object, object>(v => v),
+                new RelayStrategy<object, object>(v => v)
             };
             try
             {
@@ -51,8 +47,14 @@ namespace NCore.Nancy.Utilities
                 return false;
             }
         }
+
+        private bool TryGetRawValue(string propertyName, out object value)
+        {
+            return _properties.TryGetValue(propertyName.ToLowerInvariant(), out value);
+        }
     }
-    public class PropertyHelper:IPropertyHelper
+
+    public class PropertyHelper : IPropertyHelper
     {
         private readonly object _dto;
         private readonly IDictionary<string, PropertyInfo> _dtoProperties;
@@ -63,11 +65,6 @@ namespace NCore.Nancy.Utilities
             _dtoProperties = dto.GetType()
                 .GetProperties()
                 .ToDictionary(pi => pi.Name.ToLowerInvariant());
-        }
-
-        private bool TryGetProperty<T>(string propertyName, out PropertyInfo property)
-        {
-            return _dtoProperties.TryGetValue(propertyName.ToLowerInvariant(), out property);
         }
 
         public bool TryGetValue<T>(string propertyName, out T value)
@@ -88,6 +85,11 @@ namespace NCore.Nancy.Utilities
                 value = default(T);
                 return false;
             }
+        }
+
+        private bool TryGetProperty<T>(string propertyName, out PropertyInfo property)
+        {
+            return _dtoProperties.TryGetValue(propertyName.ToLowerInvariant(), out property);
         }
     }
 

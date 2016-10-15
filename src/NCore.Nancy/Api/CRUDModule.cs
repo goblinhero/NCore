@@ -3,7 +3,6 @@ using Nancy;
 using Nancy.ModelBinding;
 using NCore.Nancy.Commands;
 using NCore.Nancy.Queries;
-using NCore.Nancy.Utilities;
 
 namespace NCore.Nancy.Api
 {

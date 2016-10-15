@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NCore.Extensions;
 using NCore.Nancy.Commands;
 using NHibernate;
-using NHibernate.Tuple.Entity;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -16,7 +11,25 @@ namespace NCore.Tests.UnitTest
     public class UpdaterTest
     {
         private IEnumerable<string> _errors;
-        private long _id = 5;
+        private readonly long _id = 5;
+
+        public class FakeUpdater : BaseUpdater<FakeEntity>
+        {
+            public FakeUpdater(long id)
+                : base(id)
+            {
+            }
+
+            protected override bool TrySetProperties(ISession session, FakeEntity entity, out IEnumerable<string> errors)
+            {
+                return this.Success(out errors);
+            }
+        }
+
+        public class FakeEntity : Entity<FakeEntity>
+        {
+        }
+
         [Test]
         public void ShouldCheckValidity()
         {
@@ -26,25 +39,9 @@ namespace NCore.Tests.UnitTest
             session.Expect(s => s.Get<FakeEntity>(_id)).Return(entity);
 
             updater.TryExecute(session, out _errors);
-            
+
             entity.AssertWasCalled(fe => fe.IsValid(out _errors));
             session.VerifyAllExpectations();
-        }
-        public class FakeUpdater : BaseUpdater<FakeEntity>
-        {
-            public FakeUpdater(long id) 
-                : base(id)
-            {
-            }
-
-            protected override bool TrySetProperties(ISession session, out IEnumerable<string> errors)
-            {
-                return this.Success(out errors);
-            }
-        }
-
-        public class FakeEntity : Entity<FakeEntity>
-        {
         }
     }
 }

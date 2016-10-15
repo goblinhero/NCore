@@ -11,7 +11,7 @@ namespace NCore.Nancy.Utilities
         protected readonly TEntity _entity;
         protected readonly IPropertyHelper _propertyHelper;
 
-  
+
         public EntitySetter(IPropertyHelper propertyHelper, TEntity entity)
         {
             _entity = entity;
@@ -38,7 +38,8 @@ namespace NCore.Nancy.Utilities
             postUpdate?.Invoke(oldValue, newValue);
         }
 
-        public void UpdateComplexProperty<T>(Expression<Func<TEntity, T>> property, ISession session, Action<T, T> postUpdate = null)
+        public void UpdateComplexProperty<T>(Expression<Func<TEntity, T>> property, ISession session,
+            Action<T, T> postUpdate = null)
             where T : class, IHasId
         {
             var propName = $"{property.GetMemberInfo().Name}Id";
