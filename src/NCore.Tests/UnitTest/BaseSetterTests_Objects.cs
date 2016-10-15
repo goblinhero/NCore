@@ -9,7 +9,7 @@ using Rhino.Mocks;
 namespace NCore.Tests.UnitTest
 {
     [TestFixture]
-    public class BaseSetterTests
+    public class BaseSetterTests_Objects
     {
         private string _initialDescription = "Initial";
         private string _newDescription = "Newly set description";
