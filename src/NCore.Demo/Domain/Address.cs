@@ -16,5 +16,7 @@
         public string Street { get; private set; }
         public string City { get; private set; }
         public string Country { get; private set; }
+
+        public static Address Blank => new Address(string.Empty, string.Empty, string.Empty);
     }
 }

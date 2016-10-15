@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NCore.Extensions;
+using NCore.Strategies;
 
 namespace NCore.Nancy.Utilities
 {
@@ -13,7 +15,7 @@ namespace NCore.Nancy.Utilities
         {
             _properties = properties.ToDictionary(e => e.Key.ToLowerInvariant(), e => e.Value);
         }
-        private bool TryGetRawValue<T>(string propertyName, out object value)
+        private bool TryGetRawValue(string propertyName, out object value)
         {
             return _properties.TryGetValue(propertyName.ToLowerInvariant(), out value);
         }
@@ -21,14 +23,26 @@ namespace NCore.Nancy.Utilities
         public bool TryGetValue<T>(string propertyName, out T value)
         {
             object rawValue;
-            if (!TryGetRawValue<T>(propertyName, out rawValue))
+            if (!TryGetRawValue(propertyName, out rawValue))
             {
                 value = default(T);
                 return false;
             }
+            var strategies = new[]
+            {
+                new RelayStrategy<object, object>(v => default(T), v => v == null),
+                new RelayStrategy<object, object>(v => v, v => typeof(T) == typeof(string)),
+                new RelayStrategy<object, object>(v => Convert.ToDecimal(v), v => typeof(T) == typeof(decimal)),
+                new RelayStrategy<object, object>(v => Convert.ToDecimal(v), v => typeof(T) == typeof(decimal?)),
+                new RelayStrategy<object, object>(v => Convert.ToInt32(v), v => typeof(T) == typeof(int)),
+                new RelayStrategy<object, object>(v => Convert.ToInt32(v), v => typeof(T) == typeof(int?)),
+                new RelayStrategy<object, object>(v => Convert.ToInt64(v), v => typeof(T) == typeof(long)),
+                new RelayStrategy<object, object>(v => Convert.ToInt64(v), v => typeof(T) == typeof(long?)),
+                new RelayStrategy<object, object>(v => v),
+            };
             try
             {
-                value = (T)rawValue;
+                value = (T) strategies.SafeExecute(rawValue);
                 return true;
             }
             catch (Exception ex)

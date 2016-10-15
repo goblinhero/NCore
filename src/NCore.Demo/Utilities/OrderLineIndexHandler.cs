@@ -24,7 +24,7 @@ namespace NCore.Demo.Utilities
                 return;
             }
             var oldAddress = property.Compile().Invoke(_entity);
-            var newAddress = dto != null ? ExtractPatchedAddress(dto, oldAddress) : null;
+            var newAddress = dto != null ? ExtractPatchedAddress(dto, oldAddress) : Address.Blank; 
             if (Equals(oldAddress, newAddress))
                 return;
             var propertyInfo = typeof(TEntity).GetProperty(addressProperty);
@@ -46,7 +46,7 @@ namespace NCore.Demo.Utilities
                 });
             if (isBlankAddress)
             {
-                return new Address(string.Empty, string.Empty, string.Empty);
+                return Address.Blank;
             }
             var street = properties["Street"];
             var city = properties["City"];

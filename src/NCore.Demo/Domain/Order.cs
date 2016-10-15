@@ -8,7 +8,7 @@ namespace NCore.Demo.Domain
     {
         public Order()
         {
-            Address = new Address(string.Empty,string.Empty,string.Empty);
+            Address = Address.Blank;
         }
         public virtual Customer Customer { get; set; }
         public virtual Address Address { get; set; }

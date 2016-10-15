@@ -4,7 +4,7 @@
     {
         public Customer()
         {
-            Address = new Address(string.Empty,string.Empty,string.Empty);
+            Address = Address.Blank;
         }
         public virtual string CompanyName { get; set; }
         public virtual Address Address { get; set; }
