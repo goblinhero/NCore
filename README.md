@@ -14,6 +14,9 @@ and perhaps the most important principle - use the right tool for the job and st
 ## The reason
 Having written basically the same code thrice - maybe it is time to just make the damn framework.
 
+## The contents
+With this framework you can build REST-full APIs for your line-of-business CRUD applications. Validation, audit trails and easy access to full-fledged search is all baked in.
+
 ## The frameworks
 To avoid too many dependencies, light, performant frameworks are chosen over heavy swiss-army style tools. 
 
@@ -24,5 +27,5 @@ To avoid too many dependencies, light, performant frameworks are chosen over hea
 * Rhino.Mocks, testing AAA style is nicely supported..
 
 ## The data stores
-MS SQL - primary data store (at some point, maybe we will make this optional or switchable)
-Elastic Search - you know, for search
+* MS SQL - primary data store (at some point, maybe we will make this optional or switchable)
+* Elastic Search - you know, for search
