@@ -17,11 +17,11 @@ Having written basically the same code thrice - maybe it is time to just make th
 ## The frameworks
 To avoid too many dependencies, light, performant frameworks are chosen over heavy swiss-army style tools. 
 
-NHibernate, because it does not interfere (too) much with the domain model.
-Nancy, because it better supports light-weight and flexible REST interfaces.
-FluentMigrator, because it supports production scenarios really well.
-NUnit, basically it does the work
-Rhino.Mocks, testing AAA style is nicely supported.
+* NHibernate, because it does not interfere (too) much with the domain model.
+* Nancy, because it better supports light-weight and flexible REST interfaces.
+* FluentMigrator, because it supports production scenarios really well.
+* NUnit, basically it does the work.
+* Rhino.Mocks, testing AAA style is nicely supported..
 
 ## The data stores
 MS SQL - primary data store (at some point, maybe we will make this optional or switchable)
