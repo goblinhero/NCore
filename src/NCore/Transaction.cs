@@ -29,7 +29,7 @@ namespace NCore
             }.Concat(GetBusinessRules()).ToArray();
         }
 
-        protected virtual IEnumerable<IRule<T>> GetBusinessRules()
+        protected virtual IRule<T>[] GetBusinessRules()
         {
             return new IRule<T>[0];
         }

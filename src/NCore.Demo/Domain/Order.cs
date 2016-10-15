@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NCore.Extensions;
 using NCore.Rules;
 
@@ -21,7 +22,11 @@ namespace NCore.Demo.Domain
 
         private IRule<Order>[] GetInvoiceRules(IEnumerable<OrderLine> lines)
         {
-            return new IRule<Order>[0];
+            return new IRule<Order>[]
+            {
+                new RelayRule<Order>(o => !lines.Any(), "Cannot invoice an order without lines."),
+                new RelayRule<Order>(o => o.Customer == null, "Cannot invoice an order without customer.")
+            };
         }
 
         public virtual bool TryInvoice(IList<OrderLine> lines, out Invoice invoice, out IEnumerable<string> errors)
@@ -31,8 +36,16 @@ namespace NCore.Demo.Domain
                 invoice = null;
                 return false;
             }
-            invoice = new Invoice(Customer, this, lines);
-            return this.Success(out errors);
+            invoice = new Invoice(Customer, Address, lines);
+            return invoice.IsValid(out errors);
+        }
+
+        protected override IRule<Order>[] GetBusinessRules()
+        {
+            return new IRule<Order>[]
+            {
+                new RelayRule<Order>(c => c.Address == null, "Orders must have an address (can be blank).")
+            };
         }
     }
 }

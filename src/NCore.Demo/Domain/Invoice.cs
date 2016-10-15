@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NCore.Rules;
 
 namespace NCore.Demo.Domain
 {
@@ -11,16 +12,17 @@ namespace NCore.Demo.Domain
         {
         }
 
-        public Invoice(Customer customer, Order order, IEnumerable<OrderLine> lines)
+        public Invoice(Customer customer, Address address, IEnumerable<OrderLine> lines)
         {
             Customer = customer;
-            Address = order.Address;
+            Address = address;
             var index = 0;
             _lines = lines
                 .Where(ol => ol.Total != decimal.Zero || !string.IsNullOrWhiteSpace(ol.Description))
                 .OrderBy(l => l.Index)
                 .Select(ol => new InvoiceLine(ol.Description, ol.Total, index++))
                 .ToList();
+            Date = Date.Today;
         }
 
         public virtual Customer Customer { get; protected set; }
@@ -28,5 +30,15 @@ namespace NCore.Demo.Domain
         public virtual Address Address { get; protected set; }
         public virtual decimal Total { get; protected set; }
         public virtual IEnumerable<InvoiceLine> Lines => _lines;
+        protected override IRule<Invoice>[] GetBusinessRules()
+        {
+            return new IRule<Invoice>[]
+            {
+                new RelayRule<Invoice>(i => i.Customer == null,"Invoices must have a Customer."),
+                new RelayRule<Invoice>(i => i.Address == null,"Invoices must have an address (can be blank)."),
+                new RelayRule<Invoice>(i => i.Lines.Any(),"Invoices must have at least one line."),
+            };
+        }
+
     }
 }
