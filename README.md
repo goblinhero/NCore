@@ -30,3 +30,6 @@ To avoid too many dependencies, light, performant frameworks are chosen over hea
 ## The data stores
 * MS SQL - primary data store (at some point, maybe we will make this optional or switchable)
 * Elastic Search - you know, for search
+
+## The license
+This software is licensed under the [Beerware](https://en.m.wikipedia.org/wiki/Beerware) license. Basically, use and do heinous things to this code. If you find it usefull and meet any of the contributers, please buy them a beer.
