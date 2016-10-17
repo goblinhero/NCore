@@ -15,7 +15,7 @@ using NHibernate.Event;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
 using Configuration = NHibernate.Cfg.Configuration;
-
+using Serilog;
 namespace NCore.Web
 {
     public class SessionHelper
@@ -23,11 +23,11 @@ namespace NCore.Web
         private static ISessionFactory _sessionFactory;
         private static bool _initialized;
 
-        public static bool TryInitialize(ConnectionStringSettings connection, out IEnumerable<string> errors,
-            DBSettings settings = null, params Type[] mappingTypes)
+        public static bool TryInitialize(ConnectionStringSettings connection, out IEnumerable<string> errors, DBSettings settings = null, params Type[] mappingTypes)
         {
             try
             {
+                Log.Information("Starting initialization of nHibernate SessionFactory");
                 settings = settings ?? DBSettings.Default;
                 var configuration = new Configuration();
                 configuration.SessionFactoryName("BuildIt");
@@ -46,7 +46,7 @@ namespace NCore.Web
                 modelMapper.BeforeMapProperty += (inspector, member, customizer) =>
                 {
                     if (member.GetRootMember().MemberType == MemberTypes.Property &&
-                        ((PropertyInfo) member.GetRootMember()).PropertyType == typeof(DateTime))
+                        ((PropertyInfo)member.GetRootMember()).PropertyType == typeof(DateTime))
                     {
                         customizer.Type<UtcDateTimeType>();
                     }
@@ -54,11 +54,11 @@ namespace NCore.Web
                 var mapping = modelMapper.CompileMappingForAllExplicitlyAddedEntities();
                 configuration.AddDeserializedMapping(mapping, "mappings");
                 var triggerConfig = new TriggerConfig();
-                configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] {triggerConfig};
-                configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] {triggerConfig};
-                configuration.EventListeners.PreDeleteEventListeners = new IPreDeleteEventListener[] {triggerConfig};
-                configuration.EventListeners.PostInsertEventListeners = new IPostInsertEventListener[] {triggerConfig};
-                configuration.EventListeners.PostUpdateEventListeners = new IPostUpdateEventListener[] {triggerConfig};
+                configuration.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[] { triggerConfig };
+                configuration.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[] { triggerConfig };
+                configuration.EventListeners.PreDeleteEventListeners = new IPreDeleteEventListener[] { triggerConfig };
+                configuration.EventListeners.PostInsertEventListeners = new IPostInsertEventListener[] { triggerConfig };
+                configuration.EventListeners.PostUpdateEventListeners = new IPostUpdateEventListener[] { triggerConfig };
                 _sessionFactory = configuration.BuildSessionFactory();
             }
             catch (Exception ex)
@@ -68,9 +68,12 @@ namespace NCore.Web
                     $"{ex.Message} - connecting to: {connection.ConnectionString}",
                     $"Stacktrace: {ex.StackTrace}"
                 };
+                Log.Error(ex, $"Initializing SessionFactory failed.");
+                errors.ForEach(Log.Error);
                 return false;
             }
             _initialized = true;
+            Log.Information("Initialization of nHibernate SessionFactory completed.");
             errors = new string[0];
             return true;
         }
@@ -84,6 +87,8 @@ namespace NCore.Web
                 {
                     if (!query.TryExecute(session, out result, out errors))
                     {
+                        Log.Debug($"Query {query.GetType().Name} failed with the following errors:");
+                        errors.ForEach(Log.Debug);
                         tx.Commit();
                         return false;
                     }
@@ -92,6 +97,7 @@ namespace NCore.Web
                 }
                 catch (Exception ex)
                 {
+                    Log.Error(ex, $"Query { query.GetType().Name} caused an exception.");
                     result = default(T);
                     return ex.Error(out errors);
                 }
@@ -116,6 +122,7 @@ namespace NCore.Web
                 }
                 catch (Exception ex)
                 {
+                    Log.Error(ex, $"Query { command.GetType().Name} caused an exception.");
                     return ex.Error(out errors);
                 }
             }

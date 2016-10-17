@@ -6,7 +6,8 @@ using Nancy.Hosting.Self;
 using NCore.Demo.Mappings;
 using NCore.Web;
 using NCore.Web.Aspects;
-
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 namespace NCore.Demo
 {
     internal class Program
@@ -15,12 +16,16 @@ namespace NCore.Demo
         {
             StaticConfiguration.DisableErrorTraces = false;
             IEnumerable<string> errors;
-            SessionHelper.TryInitialize(ConfigurationManager.ConnectionStrings["NCoreConnection"], out errors, null,
-                typeof(CustomerMapping));
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo
+                .Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200")) { AutoRegisterTemplate = true, })
+                .CreateLogger();
+            
+            SessionHelper.TryInitialize(ConfigurationManager.ConnectionStrings["NCoreConnection"], out errors, null, typeof(CustomerMapping));
             TriggerConfig.InitializeDefault();
             var config = new HostConfiguration
             {
-                UrlReservations = new UrlReservations {CreateAutomatically = true}
+                UrlReservations = new UrlReservations { CreateAutomatically = true }
             };
             using (var host = new NancyHost(config, new Uri("http://localhost:1234")))
             {
