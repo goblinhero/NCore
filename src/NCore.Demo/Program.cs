@@ -4,9 +4,11 @@ using System.Configuration;
 using Nancy;
 using Nancy.Hosting.Self;
 using NCore.Demo.Mappings;
+using NCore.Demo.SearchIndexes;
 using NCore.Extensions;
 using NCore.Web;
 using NCore.Web.Aspects;
+using Nest;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 namespace NCore.Demo
@@ -21,13 +23,16 @@ namespace NCore.Demo
 
             //TryInitialize the ElasticSearch helper - if this fails, ElasticSearch is probably not
             //running - and logging will default back to console logging
-            if (ElasticHelper.TryInitialize(fd => {},out errors))
+            Action<FluentDictionary<Type, string>> mapping = fd =>
+            {
+                fd.Add(typeof(CustomerSearchIndex), "NCore_Customer");
+            };
+            if (ElasticHelper.TryInitialize(mapping,out errors))
             {
                 //Initializing the Serilog logging framework used throughout NCore
                 Log.Logger = new LoggerConfiguration()
                     .WriteTo
-                    .Elasticsearch(
-                        new ElasticsearchSinkOptions(new Uri(ConfigurationManager.AppSettings["ElasticNode1"]))
+                    .Elasticsearch(new ElasticsearchSinkOptions(new Uri(ConfigurationManager.AppSettings["ElasticNode1"]))
                         {
                             AutoRegisterTemplate = true,
                         })

@@ -100,6 +100,7 @@
     <Compile Include="Commands\CustomerCreator.cs" />
     <Compile Include="Commands\OrderCreator.cs" />
     <Compile Include="Commands\OrderLineCreator.cs" />
+    <Compile Include="SearchIndexes\CustomerSearchIndex.cs" />
     <Compile Include="Utilities\DemoEntitySetter.cs" />
     <Compile Include="Utilities\OrderLineIndexHandler.cs" />
     <Compile Include="Commands\CustomerDeleter.cs" />
