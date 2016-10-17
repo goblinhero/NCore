@@ -1,5 +1,5 @@
 using NCore.Demo.Contracts;
-using NCore.Nancy.Extensions;
+using NCore.Web.Extensions;
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace NCore.Demo.Mappings.Contracts

@@ -3,7 +3,7 @@ using Nancy;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
-using NCore.Nancy;
+using NCore.Web;
 
 namespace NCore.Demo.Modules
 {

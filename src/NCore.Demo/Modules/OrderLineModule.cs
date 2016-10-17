@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using NCore.Demo.Commands;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
-using NCore.Nancy.Api;
-using NCore.Nancy.Commands;
+using NCore.Web.Api;
+using NCore.Web.Commands;
 
 namespace NCore.Demo.Modules
 {

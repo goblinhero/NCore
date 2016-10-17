@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NCore.Demo.Domain;
 using NCore.Extensions;
-using NCore.Nancy.Commands;
+using NCore.Web.Commands;
 using NHibernate;
 
 namespace NCore.Demo.Commands

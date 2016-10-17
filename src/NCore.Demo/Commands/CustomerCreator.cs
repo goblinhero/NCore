@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using NCore.Demo.Domain;
 using NCore.Demo.Utilities;
-using NCore.Nancy.Commands;
-using NCore.Nancy.Utilities;
+using NCore.Web.Commands;
+using NCore.Web.Utilities;
 using NHibernate;
 
 namespace NCore.Demo.Commands

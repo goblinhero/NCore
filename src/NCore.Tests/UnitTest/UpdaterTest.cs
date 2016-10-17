@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NCore.Extensions;
-using NCore.Nancy.Commands;
+using NCore.Web.Commands;
 using NHibernate;
 using NUnit.Framework;
 using Rhino.Mocks;

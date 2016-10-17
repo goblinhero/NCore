@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NCore.Demo.Contracts;
 using NCore.Extensions;
-using NCore.Nancy.Queries;
+using NCore.Web.Queries;
 using NHibernate;
 
 namespace NCore.Demo.Queries

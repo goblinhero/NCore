@@ -101,9 +101,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NCore.Nancy\NCore.Nancy.csproj">
+    <ProjectReference Include="..\NCore.Web\NCore.Web.csproj">
       <Project>{340e46fb-f7e4-45b5-b6f9-049f03cd3c14}</Project>
-      <Name>NCore.Nancy</Name>
+      <Name>NCore.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\NCore\NCore.csproj">
       <Project>{9E4A54E6-198B-487C-B911-9DD76E4B793A}</Project>

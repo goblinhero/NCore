@@ -4,8 +4,8 @@ using System.Configuration;
 using Nancy;
 using Nancy.Hosting.Self;
 using NCore.Demo.Mappings;
-using NCore.Nancy;
-using NCore.Nancy.Aspects;
+using NCore.Web;
+using NCore.Web.Aspects;
 
 namespace NCore.Demo
 {

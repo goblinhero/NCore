@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCore", "NCore\NCore.csproj", "{9E4A54E6-198B-487C-B911-9DD76E4B793A}"
 EndProject
@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCore.Demo.Install", "NCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCore.DBMigrate", "NCore.DBMigrate\NCore.DBMigrate.csproj", "{B1D0F3F3-BF67-4585-ABFF-CEA96F82B4C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCore.Nancy", "NCore.Nancy\NCore.Nancy.csproj", "{340E46FB-F7E4-45B5-B6F9-049F03CD3C14}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCore.Web", "NCore.Web\NCore.Web.csproj", "{340E46FB-F7E4-45B5-B6F9-049F03CD3C14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

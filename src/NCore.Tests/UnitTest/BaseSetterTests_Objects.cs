@@ -1,5 +1,5 @@
 ﻿using System;
-using NCore.Nancy.Utilities;
+using NCore.Web.Utilities;
 using NHibernate;
 using NUnit.Framework;
 using Rhino.Mocks;
