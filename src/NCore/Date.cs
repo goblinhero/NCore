@@ -3,6 +3,8 @@ using NCore.Extensions;
 
 namespace NCore
 {
+    //the Date class represents an economical date calculated by the number of days since January 1st, 1970
+    //It is backed by an Int32 value - a negative value represents a date before January 1st, 1970
     public class Date : IValueType, IComparable<Date>
     {
         protected Date()
@@ -17,6 +19,8 @@ namespace NCore
         public int DateDays { get; protected set; }
         public DateTime ToDateTime => DateDays.ToDate();
 
+        //We use a local date time to find the correct day since it should be from the users
+        //perspective which date it is currently.
         public static Date Today => new Date(DateTime.Today.DaysSince1970_01_01());
 
         public int CompareTo(Date other)

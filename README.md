@@ -24,6 +24,7 @@ To avoid too many dependencies, light, performant frameworks are chosen over hea
 * NHibernate, because it does not interfere (too) much with the domain model.
 * Nancy, because it better supports light-weight and flexible REST interfaces.
 * FluentMigrator, because it supports production scenarios really well.
+* Serilog, nice logging framework that works well with an ELK stack
 * NUnit, basically it does the work.
 * Rhino.Mocks, testing AAA style is nicely supported..
 
