@@ -4,6 +4,7 @@ using System.Configuration;
 using Nancy;
 using Nancy.Hosting.Self;
 using NCore.Demo.Mappings;
+using NCore.Extensions;
 using NCore.Web;
 using NCore.Web.Aspects;
 using Serilog;
@@ -18,12 +19,31 @@ namespace NCore.Demo
             StaticConfiguration.DisableErrorTraces = false;
             IEnumerable<string> errors;
 
-            //Initializing the Serilog logging framework used throughout NCore
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo
-                .Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200")) { AutoRegisterTemplate = true, })
-                .CreateLogger();
-            
+            //TryInitialize the ElasticSearch helper - if this fails, ElasticSearch is probably not
+            //running - and logging will default back to console logging
+            if (ElasticHelper.TryInitialize(fd => {},out errors))
+            {
+                //Initializing the Serilog logging framework used throughout NCore
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo
+                    .Elasticsearch(
+                        new ElasticsearchSinkOptions(new Uri(ConfigurationManager.AppSettings["ElasticNode1"]))
+                        {
+                            AutoRegisterTemplate = true,
+                        })
+                    .CreateLogger();
+                Log.Debug("ElaticSearch cluster is up and running - logging will be sent here.");
+            }
+            else
+            {
+                //Initializing the Serilog logging framework used throughout NCore
+                Log.Logger = new LoggerConfiguration()
+                    .WriteTo.LiterateConsole()
+                    .CreateLogger();
+                Log.Error("Failed to initialize Elasticsearch");
+                errors.ForEach(Log.Error);
+            }
+
             //Creating the NHibernate SessionFactory and check that all the mappings are set correct
             SessionHelper.TryInitialize(ConfigurationManager.ConnectionStrings["NCoreConnection"], out errors, null, typeof(CustomerMapping));
 
