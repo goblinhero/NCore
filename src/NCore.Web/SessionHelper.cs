@@ -11,6 +11,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Dialect;
 using NHibernate.Driver;
+using NHibernate.Engine;
 using NHibernate.Event;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Type;
@@ -20,8 +21,17 @@ namespace NCore.Web
 {
     public class SessionHelper
     {
+        public class CompanyFilterDef : FilterDefinition
+        {
+            public CompanyFilterDef()
+                : base(CompanyFilter, "CompanyId = :companyId", new Dictionary<string, IType> {{ "companyId", NHibernateUtil.Int64}}, false)
+            {
+                
+            }        }
         private static ISessionFactory _sessionFactory;
         private static bool _initialized;
+        public const string CompanyFilter = "CompanyFilter";
+        private readonly IList<Action<ISession>> _createSteps = new List<Action<ISession>>();
 
         public static bool TryInitialize(ConnectionStringSettings connection, out IEnumerable<string> errors, DBSettings settings = null, params Type[] mappingTypes)
         {
@@ -41,8 +51,7 @@ namespace NCore.Web
                 });
                 var modelMapper = new ModelMapper();
                 mappingTypes.ForEach(t => modelMapper.AddMappings(Assembly.GetAssembly(t).GetExportedTypes()));
-                modelMapper.BeforeMapManyToOne +=
-                    (modelInspector, propertyPath, map) => map.Column(propertyPath.LocalMember.Name + "Id");
+                modelMapper.BeforeMapManyToOne += (modelInspector, propertyPath, map) => map.Column(propertyPath.LocalMember.Name + "Id");
                 modelMapper.BeforeMapProperty += (inspector, member, customizer) =>
                 {
                     if (member.GetRootMember().MemberType == MemberTypes.Property &&
@@ -51,6 +60,7 @@ namespace NCore.Web
                         customizer.Type<UtcDateTimeType>();
                     }
                 };
+                configuration.AddFilterDefinition(new CompanyFilterDef());
                 var mapping = modelMapper.CompileMappingForAllExplicitlyAddedEntities();
                 configuration.AddDeserializedMapping(mapping, "mappings");
                 var triggerConfig = new TriggerConfig();
@@ -78,9 +88,21 @@ namespace NCore.Web
             return true;
         }
 
+        private ISession OpenSession()
+        {
+            var session = _sessionFactory.OpenSession();
+            _createSteps.ForEach(a => a(session));
+            return session;
+        }
         public bool TryQuery<T>(IQuery<T> query, out T result, out IEnumerable<string> errors)
         {
-            using (var session = _sessionFactory.OpenStatelessSession())
+            if (!_initialized)
+            {
+                result = default(T);
+                return this.Error(out errors,
+                    "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
+            }
+            using (var session = OpenSession())
             using (var tx = session.BeginTransaction())
             {
                 try
@@ -111,7 +133,7 @@ namespace NCore.Web
                 return this.Error(out errors,
                     "SessionFactory has not been initialized. Did you forget to call SessionHelper.TryInitialize()?");
             }
-            using (var session = _sessionFactory.OpenSession())
+            using (var session = OpenSession())
             using (var tx = session.BeginTransaction())
             {
                 try
@@ -142,6 +164,11 @@ namespace NCore.Web
 
             public static DBSettings Default => new DBSettings();
             public IsolationLevel IsolationLevel { get; }
+        }
+
+        public void AddSessionCreateStep(Action<ISession> create)
+        {
+            _createSteps.Add(create);
         }
     }
 }

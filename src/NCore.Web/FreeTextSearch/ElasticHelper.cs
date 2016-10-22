@@ -7,7 +7,7 @@ using NCore.Extensions;
 using Nest;
 using Serilog;
 
-namespace NCore.Web
+namespace NCore.Web.FreeTextSearch
 {
     public class ElasticHelper
     {

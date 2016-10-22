@@ -81,6 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\CompanyModule.cs" />
+    <Compile Include="Aspects\Strategies\CheckCompanyStrategy.cs" />
     <Compile Include="Aspects\Strategies\DisallowTransactionDeletionStrategy.cs" />
     <Compile Include="Aspects\Strategies\DisallowTransactionUpdateStrategy.cs" />
     <Compile Include="Aspects\Strategies\SetEntityCreationDateStrategy.cs" />
@@ -88,20 +90,20 @@
     <Compile Include="Aspects\Strategies\ValidStrategy.cs" />
     <Compile Include="Api\Contracts\EntityDto.cs" />
     <Compile Include="Api\Contracts\IHasIdDto.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Commands\BaseCreator.cs" />
     <Compile Include="Api\CRUDModule.cs" />
     <Compile Include="Commands\BaseDeleter.cs" />
-    <Compile Include="ElasticCommand.cs" />
-    <Compile Include="ElasticHelper.cs" />
+    <Compile Include="FreeTextSearch\ElasticCommand.cs" />
+    <Compile Include="FreeTextSearch\ElasticHelper.cs" />
     <Compile Include="Exceptions\TransactionDeletionAttemptedException.cs" />
     <Compile Include="Exceptions\TransactionUpdateAttemptedException.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICreator.cs" />
-    <Compile Include="IElasticCommand.cs" />
-    <Compile Include="IElasticQuery.cs" />
+    <Compile Include="FreeTextSearch\IElasticCommand.cs" />
+    <Compile Include="FreeTextSearch\IElasticQuery.cs" />
+    <Compile Include="ICompanyContext.cs" />
     <Compile Include="Queries\GetQuery.cs" />
     <Compile Include="StaticRoutes.cs" />
     <Compile Include="Aspects\TriggerConfig.cs" />

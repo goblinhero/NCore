@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using NCore.Web;
+using NCore.Web.FreeTextSearch;
 using Nest;
 
 namespace NCore.Demo.Install.Commands

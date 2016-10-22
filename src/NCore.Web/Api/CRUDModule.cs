@@ -12,9 +12,9 @@ namespace NCore.Web.Api
         protected readonly SessionHelper _sessionHelper = new SessionHelper();
         protected StaticRoutes _staticRoutes;
 
-        protected CRUDModule()
+        protected CRUDModule(string routePrefix = null)
         {
-            _staticRoutes = new StaticRoutes(typeof(T).Name);
+            _staticRoutes = new StaticRoutes(typeof(T).Name, routePrefix);
             Get[_staticRoutes.Get] = p => GetOne(p.id);
             Post[_staticRoutes.Post] = p => PostOne(this.Bind<IDictionary<string, object>>());
             Put[_staticRoutes.Put] = p => PutOne(p.id, this.Bind<IDictionary<string, object>>());

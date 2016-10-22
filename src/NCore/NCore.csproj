@@ -39,6 +39,7 @@
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\GeneralExtensions.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IHasCompany.cs" />
     <Compile Include="IHasId.cs" />
     <Compile Include="IIsValidatable.cs" />
     <Compile Include="Rules\IRule.cs" />

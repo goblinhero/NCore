@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nest;
 
-namespace NCore.Web
+namespace NCore.Web.FreeTextSearch
 {
     public abstract class ElasticCommand : IElasticCommand
     {

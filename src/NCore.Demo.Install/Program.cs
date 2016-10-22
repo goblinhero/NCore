@@ -7,6 +7,7 @@ using NCore.Demo.Install.Helpers;
 using NCore.Demo.Mappings;
 using NCore.Demo.SearchIndexes;
 using NCore.Web;
+using NCore.Web.FreeTextSearch;
 using Nest;
 
 namespace NCore.Demo.Install

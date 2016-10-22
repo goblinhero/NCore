@@ -2,9 +2,9 @@
 {
     public class StaticRoutes
     {
-        public StaticRoutes(string baseRoute)
+        public StaticRoutes(string baseRoute, string routePrefix = null)
         {
-            Base = baseRoute;
+            Base = $"{routePrefix}{baseRoute}";
         }
 
         public string Get => Base + "/{id}";

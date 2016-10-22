@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NCore.Extensions;
 using NCore.Web.Aspects.Strategies;
@@ -6,15 +7,18 @@ using NHibernate.Event;
 
 namespace NCore.Web.Aspects
 {
-    public class TriggerConfig : IPreInsertEventListener, IPreUpdateEventListener, IPreDeleteEventListener,
-        IPostInsertEventListener, IPostUpdateEventListener
+    public class TriggerConfig : IPreInsertEventListener, IPreUpdateEventListener, IPreDeleteEventListener,IPostInsertEventListener, IPostUpdateEventListener, IPostLoadEventListener
     {
         private static readonly List<IStrategy<PreInsertEvent>> _preInsertStrategies = new List<IStrategy<PreInsertEvent>>();
         private static readonly List<IStrategy<PreUpdateEvent>> _preUpdateStrategies = new List<IStrategy<PreUpdateEvent>>();
         private static readonly List<IStrategy<PreDeleteEvent>> _preDeleteStrategies = new List<IStrategy<PreDeleteEvent>>();
         private static readonly List<IStrategy<PostInsertEvent>> _postInsertStrategies = new List<IStrategy<PostInsertEvent>>();
         private static readonly List<IStrategy<PostUpdateEvent>> _postUpdateStrategies = new List<IStrategy<PostUpdateEvent>>();
-
+        private static readonly List<IStrategy<PostLoadEvent>> _postLoadStrategies = new List<IStrategy<PostLoadEvent>>();
+        public void OnPostLoad(PostLoadEvent ev)
+        {
+            _postLoadStrategies.Execute(ev);
+        }
         public void OnPostInsert(PostInsertEvent ev)
         {
             _postInsertStrategies.Execute(ev);
@@ -43,8 +47,9 @@ namespace NCore.Web.Aspects
             return false;
         }
 
-        public static void InitializeDefault()
+        public static void InitializeDefault(Func<ICompanyContext> getCompanyContext)
         {
+            _postLoadStrategies.Add(new CheckCompanyStrategy(getCompanyContext));
             _preInsertStrategies.Add(new SetEntityCreationDateStrategy());
             _preInsertStrategies.Add(new SetTransactionCreationDateStrategy());
             _preInsertStrategies.Add(new ValidStrategy());
@@ -76,5 +81,7 @@ namespace NCore.Web.Aspects
         {
             _postUpdateStrategies.AddRange(strategies);
         }
+
+       
     }
 }

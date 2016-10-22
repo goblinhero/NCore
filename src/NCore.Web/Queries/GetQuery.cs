@@ -13,7 +13,7 @@ namespace NCore.Web.Queries
             _id = id;
         }
 
-        public bool TryExecute(IStatelessSession session, out T result, out IEnumerable<string> errors)
+        public bool TryExecute(ISession session, out T result, out IEnumerable<string> errors)
         {
             result = session.Get<T>(_id);
             return result == null 

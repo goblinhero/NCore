@@ -8,7 +8,7 @@ namespace NCore.Demo.Queries
 {
     public class FindCustomerQuery : IQuery<IList<CustomerDto>>
     {
-        public bool TryExecute(IStatelessSession session, out IList<CustomerDto> result, out IEnumerable<string> errors)
+        public bool TryExecute(ISession session, out IList<CustomerDto> result, out IEnumerable<string> errors)
         {
             result = session.QueryOver<CustomerDto>().List();
             return this.Success(out errors);

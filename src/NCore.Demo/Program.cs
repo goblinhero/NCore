@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Nancy;
 using Nancy.Hosting.Self;
 using NCore.Demo.Mappings;
 using NCore.Demo.SearchIndexes;
+using NCore.Demo.Utilities;
 using NCore.Extensions;
 using NCore.Web;
 using NCore.Web.Aspects;
+using NCore.Web.FreeTextSearch;
 using Nest;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
@@ -54,7 +58,9 @@ namespace NCore.Demo
 
             //Setting up aspect oriented things like validation before sending entities and transactions to the DB, 
             //Setting creation date on all entities and transactions etc.
-            TriggerConfig.InitializeDefault();
+            var container = new WindsorContainer();
+            container.Register(Component.For<ICompanyContext>().ImplementedBy<CompanyContext>().LifestylePerWebRequest());
+            TriggerConfig.InitializeDefault(() => container.Resolve<ICompanyContext>());
 
             //Starting a self-hosted Nancy webserver. It will create URL-reservations automatically (requires a UAC-prompt)
             var config = new HostConfiguration
