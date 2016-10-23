@@ -5,15 +5,18 @@ using NCore.Rules;
 
 namespace NCore.Demo.Domain
 {
-    public class Order : Entity<Order>
+    public class Order : Entity<Order>, IHasCompany
     {
-        public Order()
+        protected Order() { }
+        public Order(Company company)
         {
             Address = Address.Blank;
+            Company = company;
         }
 
         public virtual Customer Customer { get; set; }
         public virtual Address Address { get; set; }
+        public virtual ICompany Company { get; protected set; }
 
         public virtual bool CanInvoice(IEnumerable<OrderLine> lines, out IEnumerable<string> errors)
         {
@@ -25,7 +28,8 @@ namespace NCore.Demo.Domain
             return new IRule<Order>[]
             {
                 new RelayRule<Order>(o => !lines.Any(), "Cannot invoice an order without lines."),
-                new RelayRule<Order>(o => o.Customer == null, "Cannot invoice an order without customer.")
+                new RelayRule<Order>(o => o.Customer == null, "Cannot invoice an order without customer."),
+                new RelayRule<Order>(o => o.Company == null,"Orders must have a Company."),
             };
         }
 

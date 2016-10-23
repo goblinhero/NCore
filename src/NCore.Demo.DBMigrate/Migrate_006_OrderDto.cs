@@ -2,8 +2,8 @@ using FluentMigrator;
 
 namespace NCore.Demo.DBMigrate
 {
-    [Migration(5)]
-    public class Migrate_005_OrderDto : Migration
+    [Migration(6)]
+    public class Migrate_006_OrderDto : Migration
     {
         public override void Up()
         {

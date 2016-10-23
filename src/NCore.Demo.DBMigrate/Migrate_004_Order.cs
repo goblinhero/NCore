@@ -4,8 +4,8 @@ using NCore.Demo.DBMigrate.Extensions;
 
 namespace NCore.Demo.DBMigrate
 {
-    [Migration(3)]
-    public class Migrate_003_Order : Migration
+    [Migration(4)]
+    public class Migrate_004_Order : Migration
     {
         private readonly string _tableName = "Order";
 
@@ -13,8 +13,10 @@ namespace NCore.Demo.DBMigrate
         {
             this.DefaultTable(_tableName)
                 .WithInt64Column("CustomerId", true)
-                .WithAddress();
+                .WithAddress()
+                .WithCompany();
             this.DefaultForeignKey(_tableName, "Customer");
+            this.CompanyForeignKey(_tableName);
         }
 
         public override void Down()

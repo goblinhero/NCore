@@ -3,14 +3,16 @@ using NCore.Demo.Commands;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
+using NCore.Web;
 using NCore.Web.Api;
 using NCore.Web.Commands;
 
 namespace NCore.Demo.Modules
 {
-    public class OrderModule : CRUDModule<Order, OrderDto>
+    public class OrderModule : HasCompanyModule<Order, OrderDto>
     {
-        public OrderModule()
+        public OrderModule(ICompanyContext companyContext)
+            :base(companyContext)
         {
             Get[_staticRoutes.Base] = p => GetList(p.customerId);
             Post[_staticRoutes.Put + "/Invoice"] = p => PostInvoice(p.Id);
@@ -52,7 +54,7 @@ namespace NCore.Demo.Modules
 
         protected override ICreator GetCreator(IDictionary<string, object> dto)
         {
-            return new OrderCreator(dto);
+            return new OrderCreator(dto,_companyContext);
         }
 
         protected override ICommand GetUpdater(long id, IDictionary<string, object> dto)

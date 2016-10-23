@@ -10,6 +10,7 @@ namespace NCore.Demo.Mappings.Contracts
         public OrderDtoMapping()
         {
             this.MapEntityDto<OrderDtoMapping, OrderDto>();
+            this.MapCompanyDto<OrderDtoMapping, OrderDto>();
             this.MapAddressDto<OrderDtoMapping, OrderDto>(c => c.Address);
             Property(m => m.CustomerId);
             Property(m => m.CustomerCompanyName);

@@ -32,7 +32,17 @@ namespace NCore.Web.Extensions
             mapping.Version(m => m.Version, m => m.Column("[Version]"));
             mapping.Property(m => m.CreationDate);
         }
-
+        public static void MapHasCompany<TMapping, T>(this TMapping mapping, Type companyType)
+            where TMapping : ClassMapping<T>
+            where T : class,IHasCompany
+        {
+            mapping.ManyToOne(m => m.Company, m =>
+            {
+                m.NotNullable(true);
+                m.Class(companyType);
+            });   
+            mapping.Filter(SessionHelper.CompanyFilter,fm => {});
+        }
         public static void MapEntityDto<TMapping, T>(this TMapping mapping)
             where TMapping : ClassMapping<T>
             where T : EntityDto
@@ -40,6 +50,13 @@ namespace NCore.Web.Extensions
             mapping.MapIdDto<TMapping, T>();
             mapping.Property(m => m.Version, m => m.Column("[Version]"));
             mapping.Property(m => m.CreationDate);
+        }
+        public static void MapCompanyDto<TMapping, T>(this TMapping mapping)
+            where TMapping : ClassMapping<T>
+            where T : class,IHasCompanyDto
+        {
+            mapping.Property(m => m.CompanyId);
+            mapping.Filter(SessionHelper.CompanyFilter,fm => {});
         }
 
         public static void MapTransaction<TMapping, T>(this TMapping mapping)

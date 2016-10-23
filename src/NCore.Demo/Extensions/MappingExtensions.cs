@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
+using NCore.Web.Extensions;
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace NCore.Demo.Extensions
@@ -30,6 +31,12 @@ namespace NCore.Demo.Extensions
                 c.Property(a => a.Street);
                 c.Property(a => a.Country);
             });
+        }
+        public static void MapDemoCompany<TMapping, T>(this TMapping mapping)
+            where TMapping : ClassMapping<T>
+            where T : class,IHasCompany
+        {
+            mapping.MapHasCompany<TMapping, T>(typeof(Company));
         }
     }
 }

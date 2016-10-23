@@ -10,6 +10,7 @@ namespace NCore.Demo.Mappings.Contracts
         public InvoiceDtoMapping()
         {
             this.MapEntityDto<InvoiceDtoMapping, InvoiceDto>();
+            this.MapCompanyDto<InvoiceDtoMapping, InvoiceDto>();
             this.MapAddressDto<InvoiceDtoMapping, InvoiceDto>(c => c.Address);
             Property(m => m.CustomerId);
             Property(m => m.CustomerCompanyName);

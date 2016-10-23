@@ -10,6 +10,7 @@ namespace NCore.Demo.Mappings
         public OrderMapping()
         {
             this.MapEntity<OrderMapping, Order>();
+            this.MapDemoCompany<OrderMapping, Order>();
             this.MapAddress<OrderMapping, Order>(c => c.Address);
             ManyToOne(m => m.Customer);
         }

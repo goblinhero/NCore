@@ -99,8 +99,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CompanyCreator.cs" />
+    <Compile Include="Commands\CompanyDeleter.cs" />
+    <Compile Include="Commands\CompanyUpdater.cs" />
     <Compile Include="Commands\InvoiceOrderCommand.cs" />
     <Compile Include="Contracts\AddressDto.cs" />
+    <Compile Include="Contracts\CompanyDto.cs" />
     <Compile Include="Contracts\CustomerDto.cs" />
     <Compile Include="Contracts\InvoiceDto.cs" />
     <Compile Include="Contracts\InvoiceLineDto.cs" />
@@ -109,6 +113,10 @@
     <Compile Include="Commands\CustomerCreator.cs" />
     <Compile Include="Commands\OrderCreator.cs" />
     <Compile Include="Commands\OrderLineCreator.cs" />
+    <Compile Include="Domain\Company.cs" />
+    <Compile Include="Mappings\CompanyMapping.cs" />
+    <Compile Include="Modules\CompanyModule.cs" />
+    <Compile Include="Queries\FindCompanyQuery.cs" />
     <Compile Include="SearchIndexes\CustomerSearchIndex.cs" />
     <Compile Include="Utilities\CompanyContext.cs" />
     <Compile Include="Utilities\DemoEntitySetter.cs" />

@@ -1,10 +1,11 @@
 using FluentMigrator;
 using NCore.DBMigrate.Extensions;
+using NCore.Demo.DBMigrate.Extensions;
 
 namespace NCore.Demo.DBMigrate
 {
-    [Migration(4)]
-    public class Migrate_004_OrderLine : Migration
+    [Migration(5)]
+    public class Migrate_005_OrderLine : Migration
     {
         private readonly string _tableName = "OrderLine";
 
@@ -14,8 +15,10 @@ namespace NCore.Demo.DBMigrate
                 .WithInt64Column("OrderId", true)
                 .WithColumn("[Index]").AsInt32().NotNullable()
                 .WithStringColumn("Description")
-                .WithColumn("Total").AsDecimal().NotNullable();
+                .WithColumn("Total").AsDecimal().NotNullable()
+                .WithCompany();
             this.DefaultForeignKey(_tableName, "Order");
+            this.CompanyForeignKey(_tableName);
         }
 
         public override void Down()

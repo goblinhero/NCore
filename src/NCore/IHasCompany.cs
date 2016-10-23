@@ -2,6 +2,6 @@ namespace NCore
 {
     public interface IHasCompany
     {
-        long CompanyId { get; }
+        ICompany Company { get; }
     }
 }

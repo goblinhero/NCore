@@ -15,9 +15,9 @@ namespace NCore.Demo.Commands
 
         public override bool TryDelete(Customer entity, ISession session, out IEnumerable<string> errors)
         {
-            if (session.QueryOver<Order>().Where(o => o.Customer == entity).RowCount() > 0)
-                return this.Error(out errors, "Cannot delete customer with orders");
-            return base.TryDelete(entity, session, out errors);
+            return session.QueryOver<Order>().Where(o => o.Customer == entity).RowCount() > 0 
+                ? this.Error(out errors, "Cannot delete customer with orders") 
+                : base.TryDelete(entity, session, out errors);
         }
     }
 }

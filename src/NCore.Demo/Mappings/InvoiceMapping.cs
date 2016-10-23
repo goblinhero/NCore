@@ -11,6 +11,7 @@ namespace NCore.Demo.Mappings
         public InvoiceMapping()
         {
             this.MapTransaction<InvoiceMapping, Invoice>();
+            this.MapDemoCompany<InvoiceMapping, Invoice>();
             this.MapAddress<InvoiceMapping, Invoice>(c => c.Address);
             this.MapDate<InvoiceMapping, Invoice>(m => m.Date);
             Property(m => m.Total);

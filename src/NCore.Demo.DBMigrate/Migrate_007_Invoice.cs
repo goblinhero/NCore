@@ -4,8 +4,8 @@ using NCore.Demo.DBMigrate.Extensions;
 
 namespace NCore.Demo.DBMigrate
 {
-    [Migration(6)]
-    public class Migrate_006_Invoice : Migration
+    [Migration(7)]
+    public class Migrate_007_Invoice : Migration
     {
         private readonly string _tableName = "Invoice";
         private readonly string _tableNameLines = "InvoiceLine";
@@ -16,8 +16,10 @@ namespace NCore.Demo.DBMigrate
                 .WithInt64Column("CustomerId")
                 .WithAddress()
                 .WithColumn("Total").AsDecimal().NotNullable()
-                .WithColumn("DateDays").AsInt32().NotNullable();
+                .WithColumn("DateDays").AsInt32().NotNullable()
+                .WithCompany();
             this.DefaultForeignKey(_tableName, "Customer");
+            this.CompanyForeignKey(_tableName);
             this.DefaultTable(_tableNameLines)
                 .WithInt64Column("InvoiceId", true)
                 .WithColumn("[Index]").AsInt32().NotNullable()

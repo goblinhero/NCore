@@ -5,9 +5,9 @@ using NCore.Demo.DBMigrate.Extensions;
 namespace NCore.Demo.DBMigrate
 {
     [Migration(2)]
-    public class Migrate_002_Customer : Migration
+    public class Migrate_002_Company : Migration
     {
-        private readonly string _tableName = "Customer";
+        private readonly string _tableName = "Company";
 
         public override void Up()
         {

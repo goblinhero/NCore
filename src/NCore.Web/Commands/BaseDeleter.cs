@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using NCore.Extensions;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace NCore.Web.Commands
 {
@@ -27,6 +30,15 @@ namespace NCore.Web.Commands
         {
             session.Delete(entity);
             return this.Success(out errors);
+        }
+
+        protected IFutureValue<int> GetConstraintQuery<TDependant>(ISession session, Expression<Func<TDependant, bool>> crit)
+            where TDependant:class
+        {
+            return session.QueryOver<TDependant>()
+                .Where(crit)
+                .ToRowCountQuery()
+                .FutureValue<int>();
         }
     }
 }

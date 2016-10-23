@@ -81,7 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\CompanyModule.cs" />
+    <Compile Include="Api\HasCompanyModule.cs" />
+    <Compile Include="Api\Contracts\IHasCompanyDto.cs" />
     <Compile Include="Aspects\Strategies\CheckCompanyStrategy.cs" />
     <Compile Include="Aspects\Strategies\DisallowTransactionDeletionStrategy.cs" />
     <Compile Include="Aspects\Strategies\DisallowTransactionUpdateStrategy.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Aspects\Strategies\ValidStrategy.cs" />
     <Compile Include="Api\Contracts\EntityDto.cs" />
     <Compile Include="Api\Contracts\IHasIdDto.cs" />
+    <Compile Include="BaseRoutes.cs" />
     <Compile Include="Commands\BaseCreator.cs" />
     <Compile Include="Api\CRUDModule.cs" />
     <Compile Include="Commands\BaseDeleter.cs" />

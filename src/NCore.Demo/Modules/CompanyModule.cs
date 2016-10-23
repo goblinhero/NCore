@@ -3,16 +3,14 @@ using NCore.Demo.Commands;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
-using NCore.Web;
 using NCore.Web.Api;
 using NCore.Web.Commands;
 
 namespace NCore.Demo.Modules
 {
-    public class CustomerModule : HasCompanyModule<Customer, CustomerDto>
+    public class CompanyModule : CRUDModule<Company, CompanyDto>
     {
-        public CustomerModule(ICompanyContext companyContext)
-            :base(companyContext)
+        public CompanyModule()
         {
             Get[_staticRoutes.Base] = p => GetList();
         }
@@ -20,8 +18,8 @@ namespace NCore.Demo.Modules
         private object GetList()
         {
             IEnumerable<string> errors;
-            IList<CustomerDto> result;
-            return _sessionHelper.TryQuery(new FindCustomerQuery(), out result, out errors)
+            IList<CompanyDto> result;
+            return _sessionHelper.TryQuery(new FindCompanyQuery(), out result, out errors)
                 ? new
                 {
                     Success = true,
@@ -36,17 +34,17 @@ namespace NCore.Demo.Modules
 
         protected override ICreator GetCreator(IDictionary<string, object> dto)
         {
-            return new CustomerCreator(dto, _companyContext);
+            return new CompanyCreator(dto);
         }
 
         protected override ICommand GetUpdater(long id, IDictionary<string, object> dto)
         {
-            return new CustomerUpdater(id, dto);
+            return new CompanyUpdater(id, dto);
         }
 
         protected override ICommand GetDeleter(long id)
         {
-            return new CustomerDeleter(id);
+            return new CompanyDeleter(id);
         }
     }
 }

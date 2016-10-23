@@ -40,11 +40,12 @@
   <ItemGroup>
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Migrate_001.cs" />
-    <Compile Include="Migrate_002_Customer.cs" />
-    <Compile Include="Migrate_003_Order.cs" />
-    <Compile Include="Migrate_004_OrderLine.cs" />
-    <Compile Include="Migrate_005_OrderDto.cs" />
-    <Compile Include="Migrate_006_Invoice.cs" />
+    <Compile Include="Migrate_002_Company.cs" />
+    <Compile Include="Migrate_003_Customer.cs" />
+    <Compile Include="Migrate_004_Order.cs" />
+    <Compile Include="Migrate_005_OrderLine.cs" />
+    <Compile Include="Migrate_006_OrderDto.cs" />
+    <Compile Include="Migrate_007_Invoice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

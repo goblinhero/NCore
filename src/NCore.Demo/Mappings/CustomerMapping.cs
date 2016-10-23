@@ -10,6 +10,7 @@ namespace NCore.Demo.Mappings
         public CustomerMapping()
         {
             this.MapEntity<CustomerMapping, Customer>();
+            this.MapDemoCompany<CustomerMapping, Customer>();
             this.MapAddress<CustomerMapping, Customer>(c => c.Address);
             Property(m => m.CompanyName, m => m.NotNullable(true));
         }

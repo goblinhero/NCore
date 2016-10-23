@@ -6,13 +6,13 @@ using NHibernate;
 
 namespace NCore.Web.Api
 {
-    public abstract class CompanyModule<T, TDto> : CRUDModule<T, TDto>
+    public abstract class HasCompanyModule<T, TDto> : CRUDModule<T, TDto>
         where T : IEntity, IHasCompany
     {
-        private readonly ICompanyContext _companyContext;
+        protected readonly ICompanyContext _companyContext;
 
-        protected CompanyModule(ICompanyContext companyContext)
-            :base("Company/{companyId}")
+        protected HasCompanyModule(ICompanyContext companyContext)
+            :base("Company/{companyId}/")
         {
             _companyContext = companyContext;
             Before += SetContext;
@@ -20,13 +20,14 @@ namespace NCore.Web.Api
 
         private Response SetContext(NancyContext ctx)
         {
+            long companyId = ctx.Parameters.companyId;
             IEnumerable<string> errors;
             Action<ISession> enableFilter = s =>
             {
-                s.EnableFilter(SessionHelper.CompanyFilter).SetParameter("companyId", ctx.Parameters.companyId);
+                s.EnableFilter(SessionHelper.CompanyFilter).SetParameter("companyId", companyId);
             };
             _sessionHelper.AddSessionCreateStep(enableFilter);
-            return _companyContext.TrySetCompanyId(ctx.Parameters.companyId, out errors)
+            return _companyContext.TrySetCompanyId(companyId, out errors)
                 ? null
                 : new JsonResponse(new
                 {

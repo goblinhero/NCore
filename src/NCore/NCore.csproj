@@ -38,6 +38,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\GeneralExtensions.cs" />
+    <Compile Include="ICompany.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IHasCompany.cs" />
     <Compile Include="IHasId.cs" />

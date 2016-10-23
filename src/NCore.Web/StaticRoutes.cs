@@ -1,16 +1,15 @@
 ﻿namespace NCore.Web
 {
-    public class StaticRoutes
+    public class StaticRoutes: BaseRoutes
     {
-        public StaticRoutes(string baseRoute, string routePrefix = null)
+        public StaticRoutes(string baseRoute, string routePrefix = null) 
+            : base(baseRoute, routePrefix)
         {
-            Base = $"{routePrefix}{baseRoute}";
         }
 
         public string Get => Base + "/{id}";
         public string Post => Base;
         public string Put => Base + "/{id}";
         public string Delete => Base + "/{id}";
-        public string Base { get; }
     }
 }

@@ -24,9 +24,9 @@ namespace NCore.Web.Aspects.Strategies
         {
             var hasCompany = (IHasCompany) criteria.Entity;
             var context = _getCompanyContext();
-            if (context != null && hasCompany.CompanyId.Equals(context.CurrentCompany))
+            if (context != null && hasCompany.Company != null && Equals(hasCompany.Company.Id,context.CurrentCompany))
                 return;
-            Log.Warning($"Tried to load {criteria.Entity.GetType().Name} (ToString: {criteria.Entity} with companyId: {hasCompany.CompanyId}) while working in company: {context?.CurrentCompany}");
+            Log.Warning($"Tried to load {criteria.Entity.GetType().Name} (ToString: {criteria.Entity} with companyId: {hasCompany.Company?.Id}) while working in company: {context?.CurrentCompany}");
             throw new SecurityException("Not allowed to work with this entity in this company.");
         }
     }

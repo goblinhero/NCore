@@ -11,6 +11,7 @@ namespace NCore.Demo.Mappings.Contracts
         {
             Table("Customer");
             this.MapEntityDto<CustomerDtoMapping, CustomerDto>();
+            this.MapCompanyDto<CustomerDtoMapping, CustomerDto>();
             this.MapAddressDto<CustomerDtoMapping, CustomerDto>(c => c.Address);
             Property(m => m.CompanyName);
         }
