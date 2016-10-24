@@ -1,26 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NCore.Web;
 using NCore.Web.FreeTextSearch;
 using Nest;
 
-namespace NCore.Demo.Install.Commands
+namespace NCore.DBMigrate.ElasticSearch
 {
-    public abstract class BaseCreateIndexCommand<TIndex> : ElasticCommand
+    public class BaseCreateIndexCommand<TIndex> : ElasticCommand
         where TIndex : class
     {
         private readonly string _indexAlias;
-
-        protected BaseCreateIndexCommand(string indexAlias)
+        private readonly Action<PropertiesDescriptor<TIndex>> _addProperties;
+        public BaseCreateIndexCommand(string indexAlias, Action<PropertiesDescriptor<TIndex>> addProperties)
         {
+            _addProperties = addProperties;
             _indexAlias = indexAlias.ToLower();
         }
 
         public override bool TryExecute(ElasticClient client, out IEnumerable<string> errors)
         {
             var indices = client.GetIndicesPointingToAlias(_indexAlias);
-            NewIndexName = indices.Any() ? CreateNewIndexFromOld(indices[0]) : string.Format("{0}_001", _indexAlias);
+            NewIndexName = indices.Any() ? CreateNewIndexFromOld(indices[0]) : $"{_indexAlias}_001";
 
             //If the previous run failed, the new index might already exists
             var existsResponse = client.IndexExists(NewIndexName);
@@ -37,7 +38,7 @@ namespace NCore.Demo.Install.Commands
 
             var response = client.CreateIndex(NewIndexName,cid => cid.Mappings(md => md.Map<TIndex>(m => m.Properties(p =>
             {
-                AddProperties(p);
+                _addProperties(p);
                 return p;
             }))));
             if (response.ServerError != null)
@@ -50,7 +51,6 @@ namespace NCore.Demo.Install.Commands
 
         }
 
-        public abstract void AddProperties(PropertiesDescriptor<TIndex> p);
         public string NewIndexName { get; private set; }
 
         private string CreateNewIndexFromOld(string oldIndex)

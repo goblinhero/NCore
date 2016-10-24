@@ -105,6 +105,7 @@
     <Compile Include="Commands\ICreator.cs" />
     <Compile Include="FreeTextSearch\IElasticCommand.cs" />
     <Compile Include="FreeTextSearch\IElasticQuery.cs" />
+    <Compile Include="FreeTextSearch\SearchDto.cs" />
     <Compile Include="ICompanyContext.cs" />
     <Compile Include="Queries\GetQuery.cs" />
     <Compile Include="StaticRoutes.cs" />

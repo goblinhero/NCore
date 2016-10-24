@@ -4,6 +4,10 @@ namespace NCore.Demo.Domain
 {
     public class Company : Entity<Company>, ICompany
     {
+        public Company()
+        {
+            Address = Address.Blank;
+        }
         public virtual string CompanyName { get; set; }
         public virtual Address Address { get; set; }
         protected override IRule<Company>[] GetBusinessRules()

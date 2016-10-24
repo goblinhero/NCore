@@ -1,11 +1,11 @@
 ﻿using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
+using NCore.Web.FreeTextSearch;
 
 namespace NCore.Demo.SearchIndexes
 {
-    public class CustomerSearchIndex
+    public class CustomerSearchIndex:SearchDto
     {
-        public long Id { get; set; }
         public string CompanyName { get; set; }
         public string CompanyNameRaw { get; set; }
         public string Street { get; set; }
@@ -32,4 +32,5 @@ namespace NCore.Demo.SearchIndexes
             };
         }
     }
+
 }

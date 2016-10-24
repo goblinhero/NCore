@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using NCore.Web;
 using NCore.Web.FreeTextSearch;
 using Nest;
 using NHibernate.Util;
 
-namespace NCore.Demo.Install.Commands
+namespace NCore.DBMigrate.ElasticSearch
 {
     public class AlterIndexAliasCommand : ElasticCommand
     {

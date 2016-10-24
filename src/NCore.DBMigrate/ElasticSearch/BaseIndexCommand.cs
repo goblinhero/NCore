@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NCore.Demo.Install.Helpers;
 using NCore.Web.Api.Contracts;
 using NCore.Web.Commands;
+using NCore.Web.FreeTextSearch;
 using Nest;
 using NHibernate;
 using NHibernate.Util;
 
-namespace NCore.Demo.Install.Commands
+namespace NCore.DBMigrate.ElasticSearch
 {
-    public abstract class BaseIndexCommand<TDto, TSearchDto> : ICommand
+    public class BaseIndexCommand<TDto, TSearchDto> : ICommand
         where TDto : class, IHasIdDto
         where TSearchDto : class
     {
         private readonly string _index;
+        private readonly Func<TDto, TSearchDto[]> _convert;
 
-        protected BaseIndexCommand(string index)
+        public BaseIndexCommand(string index, Func<TDto, TSearchDto[]> convert)
         {
             _index = index;
+            _convert = convert;
         }
 
         public bool TryExecute(ISession session, out IEnumerable<string> errors)
@@ -30,8 +32,7 @@ namespace NCore.Demo.Install.Commands
                 errors = new string[0];
                 return true;
             }
-            InitializeExtraData(session);
-            return new ElasticReIndexHelper().TryWrap(c =>
+            return new ElasticHelper().TryWrap(c =>
             {
                 var count = 0;
                 var pageSize = 1000;
@@ -41,7 +42,7 @@ namespace NCore.Demo.Install.Commands
                 entities.ForEach(e =>
                 {
                     count++;
-                    var search = Convert(e);
+                    var search = _convert(e);
                     foreach (var s in search)
                     {
                         descriptor.Index<TSearchDto>(op => op.Document(s).Id(e.Id.Value).Index(_index));
@@ -65,11 +66,5 @@ namespace NCore.Demo.Install.Commands
                 return true;
             }, out errors);
         }
-
-        protected virtual void InitializeExtraData(ISession session)
-        {
-        }
-
-        public abstract TSearchDto[] Convert(TDto dto);
     }
 }

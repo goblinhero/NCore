@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using NCore.Demo.Install.Commands;
+using NCore.Demo.Install.FreeTextSearch;
 using NCore.Demo.Install.Helpers;
 using NCore.Demo.Mappings;
-using NCore.Demo.SearchIndexes;
 using NCore.Web;
 using NCore.Web.FreeTextSearch;
 using Nest;
@@ -30,22 +29,8 @@ namespace NCore.Demo.Install
             {
                 return;
             }
-            ReIndexCustomers();
+            new RefreshCustomerIndexCommand(_defaultIndexPrefix).TryExecute(out errors);
             Process.Start("LastDBMigrate.log.txt");
-        }
-        private static void ReIndexCustomers()
-        {
-            Console.WriteLine("Now starting indexing customers");
-            var elasticHelper = new ElasticReIndexHelper();
-            IEnumerable<string> errors;
-            var alias = $"{_defaultIndexPrefix}_customer";
-            var createIndexCommand = new CreateNewCustomerIndexCommand(alias);
-            if (!elasticHelper.TryWrapCommand(createIndexCommand, out errors))
-                return;
-            ElasticReIndexHelper.SetMap<CustomerSearchIndex>(createIndexCommand.NewIndexName, pd => createIndexCommand.AddProperties(pd));
-            var helper = new SessionHelper();
-            helper.TryExecute(new IndexCustomersCommand(createIndexCommand.NewIndexName), out errors);
-            elasticHelper.TryWrapCommand(new AlterIndexAliasCommand(alias, createIndexCommand.NewIndexName), out errors);
         }
     }
 }

@@ -18,11 +18,11 @@ namespace NCore.Web.FreeTextSearch
             try
             {
                 var urls = new[]
-                    {
-                        ConfigurationManager.AppSettings["ElasticNode1"],
-                        ConfigurationManager.AppSettings["ElasticNode2"],
-                        ConfigurationManager.AppSettings["ElasticNode3"]
-                    }.Where(u => !string.IsNullOrEmpty(u))
+                {
+                    ConfigurationManager.AppSettings["ElasticNode1"],
+                    ConfigurationManager.AppSettings["ElasticNode2"],
+                    ConfigurationManager.AppSettings["ElasticNode3"]
+                }.Where(u => !string.IsNullOrEmpty(u))
                     .Select(u => new Uri(u))
                     .ToArray();
                 if (!urls.Any())
@@ -48,8 +48,7 @@ namespace NCore.Web.FreeTextSearch
         {
             if (_client == null)
             {
-                errors = new[]
-                    {"Client was not initialized - maybe you forgot to call ElasticHelper.TryInitialize in the startup"};
+                errors = new[]{"Client was not initialized - maybe you forgot to call ElasticHelper.TryInitialize in the startup"};
                 Log.Warning(string.Join(Environment.NewLine, errors));
                 return false;
             }
@@ -71,8 +70,7 @@ namespace NCore.Web.FreeTextSearch
         {
             if (_client == null)
             {
-                errors = new[]
-                    {"Client was not initialized - maybe you forgot to call ElasticHelper.TryInitialize in the startup"};
+                errors = new[]{"Client was not initialized - maybe you forgot to call ElasticHelper.TryInitialize in the startup"};
                 return false;
             }
             try
@@ -94,8 +92,7 @@ namespace NCore.Web.FreeTextSearch
         {
             if (_client == null)
             {
-                errors = new[]
-                    {"Client was not initialized - maybe you forgot to call ElasticHelper.TryInitialize in the startup"};
+                errors = new[]{"Client was not initialized - maybe you forgot to call ElasticHelper.TryInitialize in the startup"};
                 return false;
             }
             try
@@ -111,6 +108,16 @@ namespace NCore.Web.FreeTextSearch
                 errors = new[] {$"Elasticsearch failed - {ex.Message}"};
                 return false;
             }
+        }
+
+        public static void SetMap<TIndex>(string newIndexName, Action<PropertiesDescriptor<TIndex>> properties)
+            where TIndex : class
+        {
+            _client.Map<TIndex>(d => d.Properties(p =>
+            {
+                properties(p);
+                return p;
+            }).Index(newIndexName));
         }
     }
 }
