@@ -116,6 +116,7 @@
     <Compile Include="Domain\Company.cs" />
     <Compile Include="Mappings\CompanyMapping.cs" />
     <Compile Include="Modules\CompanyModule.cs" />
+    <Compile Include="Queries\CompositeCustomerFreeTextQuery.cs" />
     <Compile Include="Queries\FindCompanyQuery.cs" />
     <Compile Include="SearchIndexes\CustomerSearchIndex.cs" />
     <Compile Include="Utilities\CompanyContext.cs" />

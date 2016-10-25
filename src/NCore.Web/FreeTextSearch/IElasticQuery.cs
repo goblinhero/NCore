@@ -10,6 +10,6 @@ namespace NCore.Web.FreeTextSearch
     public interface IElasticQuery<T> : IElasticQuery
       where T : class
     {
-        ISearchResponse<T> Results { get; }
+        T Results { get; }
     }
 }

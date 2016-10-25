@@ -29,7 +29,7 @@ namespace NCore.Demo
             //running - and logging will default back to console logging
             Action<FluentDictionary<Type, string>> mapping = fd =>
             {
-                fd.Add(typeof(CustomerSearchIndex), "NCore_Customer");
+                fd.Add(typeof(CustomerSearchIndex), "ncore_customer");
             };
             if (ElasticHelper.TryInitialize(mapping,out errors))
             {

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
+using Elasticsearch.Net;
 using NCore.Demo.Commands;
 using NCore.Demo.Contracts;
 using NCore.Demo.Domain;
 using NCore.Demo.Queries;
+using NCore.Strategies;
 using NCore.Web;
 using NCore.Web.Api;
 using NCore.Web.Commands;
@@ -12,7 +15,7 @@ namespace NCore.Demo.Modules
     public class CustomerModule : HasCompanyModule<Customer, CustomerDto>
     {
         public CustomerModule(ICompanyContext companyContext)
-            :base(companyContext)
+            : base(companyContext)
         {
             Get[_staticRoutes.Base] = p => GetList();
         }
@@ -21,13 +24,14 @@ namespace NCore.Demo.Modules
         {
             IEnumerable<string> errors;
             IList<CustomerDto> result;
-            return _sessionHelper.TryQuery(new FindCustomerQuery(), out result, out errors)
+            var query = Request.Query["query"];
+            return new CompositeCustomerFreeTextQuery(_companyContext, query).TryExecute(out result, out errors) || _sessionHelper.TryQuery(new FindCustomerQuery(), out result, out errors)
                 ? new
                 {
                     Success = true,
                     Result = result
                 }
-                : (object) new
+                : (object)new
                 {
                     Success = false,
                     Errors = errors

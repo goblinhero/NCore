@@ -95,6 +95,7 @@
     <Compile Include="Commands\BaseCreator.cs" />
     <Compile Include="Api\CRUDModule.cs" />
     <Compile Include="Commands\BaseDeleter.cs" />
+    <Compile Include="Extensions\FreeTextSearchExtensions.cs" />
     <Compile Include="FreeTextSearch\ElasticCommand.cs" />
     <Compile Include="FreeTextSearch\ElasticHelper.cs" />
     <Compile Include="Exceptions\TransactionDeletionAttemptedException.cs" />

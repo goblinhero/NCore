@@ -24,17 +24,18 @@ namespace NCore.DBMigrate.ElasticSearch
             Console.WriteLine($"Now starting indexing entities of type: {typeof(TEntity).Name}");
             var elasticHelper = new ElasticHelper();
             var alias = $"{_defaultIndexPrefix}_{typeof(TEntity).Name.ToLower()}";
-            var createIndexCommand = new BaseCreateIndexCommand<TSearch>(alias, AddProperties);
+            var createIndexCommand = new BaseCreateIndexCommand<TSearch>(alias, tmd => tmd.Properties(AddProperties));
             if (!elasticHelper.TryWrapCommand(createIndexCommand, out errors))
                 return false;
-            ElasticHelper.SetMap<TSearch>(createIndexCommand.NewIndexName, AddProperties);
+            ElasticHelper.SetMap<TSearch>(createIndexCommand.NewIndexName,pd => AddProperties(pd));
             var helper = new SessionHelper();
             helper.TryExecute(new BaseIndexCommand<TDto,TSearch>(createIndexCommand.NewIndexName,Convert), out errors);
             elasticHelper.TryWrapCommand(new AlterIndexAliasCommand(alias, createIndexCommand.NewIndexName), out errors);
             errors = new string[0];
             return true;
         }
-        protected abstract void AddProperties(PropertiesDescriptor<TSearch> pd);
+
+        protected abstract IPromise<IProperties> AddProperties(PropertiesDescriptor<TSearch> arg);
         protected abstract TSearch[] Convert(TDto dto);
     }
 

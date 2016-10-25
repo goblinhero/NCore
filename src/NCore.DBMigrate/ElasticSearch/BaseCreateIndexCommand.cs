@@ -11,8 +11,8 @@ namespace NCore.DBMigrate.ElasticSearch
         where TIndex : class
     {
         private readonly string _indexAlias;
-        private readonly Action<PropertiesDescriptor<TIndex>> _addProperties;
-        public BaseCreateIndexCommand(string indexAlias, Action<PropertiesDescriptor<TIndex>> addProperties)
+        private readonly Func<TypeMappingDescriptor<TIndex>, ITypeMapping> _addProperties;
+        public BaseCreateIndexCommand(string indexAlias, Func<TypeMappingDescriptor<TIndex>, ITypeMapping> addProperties)
         {
             _addProperties = addProperties;
             _indexAlias = indexAlias.ToLower();
@@ -36,11 +36,7 @@ namespace NCore.DBMigrate.ElasticSearch
                 client.DeleteIndex(NewIndexName);
             }
 
-            var response = client.CreateIndex(NewIndexName,cid => cid.Mappings(md => md.Map<TIndex>(m => m.Properties(p =>
-            {
-                _addProperties(p);
-                return p;
-            }))));
+            var response = client.CreateIndex(NewIndexName, cid => cid.Mappings(m => m.Map<TIndex>(_addProperties)));
             if (response.ServerError != null)
             {
                 return ErrorResult(out errors, "Create index failed with the following errors:",

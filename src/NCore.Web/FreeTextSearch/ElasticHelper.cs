@@ -29,6 +29,8 @@ namespace NCore.Web.FreeTextSearch
                     return urls.Error(out errors, "Failed to find any ElasticNodes in appSettings in app.config");
                 IConnectionPool connectionPool = new SniffingConnectionPool(urls);
                 var config = new ConnectionSettings(connectionPool).MapDefaultTypeIndices(mapping);
+                config.ThrowExceptions();
+                config.RequestTimeout(TimeSpan.FromSeconds(5));
                 var client = new ElasticClient(config);
                 var ping = client.Ping();
                 if (ping.IsValid)
@@ -44,6 +46,7 @@ namespace NCore.Web.FreeTextSearch
             }
         }
 
+        public bool IsInitialized => _client != null;
         public bool TryWrap(Predicate<ElasticClient> action, out IEnumerable<string> errors)
         {
             if (_client == null)

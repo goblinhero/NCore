@@ -13,19 +13,11 @@ namespace NCore.Demo.Install.FreeTextSearch
         {
         }
 
-        protected override void AddProperties(PropertiesDescriptor<CustomerSearchIndex> p)
+
+        protected override IPromise<IProperties> AddProperties(PropertiesDescriptor<CustomerSearchIndex> descriptor)
         {
-            //Used to control how the data is stored for full text searching - if left blanc, Elastic Search 
-            //will typically analyze string types and not numbers
-            p.Number(n => n.Name(name => name.Id).Index());
-            p.String(n => n.Name(name => name.CompanyName).Index(FieldIndexOption.Analyzed));
-            p.String(n => n.Name(name => name.CompanyNameRaw).Index(FieldIndexOption.NotAnalyzed));
-            p.String(n => n.Name(name => name.Street).Index(FieldIndexOption.Analyzed));
-            p.String(n => n.Name(name => name.StreetRaw).Index(FieldIndexOption.NotAnalyzed));
-            p.String(n => n.Name(name => name.City).Index(FieldIndexOption.Analyzed));
-            p.String(n => n.Name(name => name.CityRaw).Index(FieldIndexOption.NotAnalyzed));
-            p.String(n => n.Name(name => name.Country).Index(FieldIndexOption.Analyzed));
-            p.String(n => n.Name(name => name.CountryRaw).Index(FieldIndexOption.NotAnalyzed));
+            CustomerSearchIndex.AddProperties(descriptor);
+            return descriptor;
         }
 
         protected override CustomerSearchIndex[] Convert(CustomerDto dto)
